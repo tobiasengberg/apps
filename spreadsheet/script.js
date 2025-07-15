@@ -5,9 +5,9 @@ const dimensions = {
   columns: 10,
 }
 
-const content = {
-  "2-4": 34,
-}
+const selection = [];
+
+const content = { };
 
 const setUpFullArea = () => {
   let toAdd = document.getElementById("setup");
@@ -56,6 +56,10 @@ const setUpRows = () => {
 }
 
 const setUpWorkArea = () => {
+  console.log("start");
+  if (document.getElementById("workArea")) {
+    document.getElementById("workArea").remove();
+  }
   let targetArea = document.getElementById("setup");
   let toAdd = document.createElement("div");
   toAdd.setAttribute("id", "workArea");
@@ -80,31 +84,54 @@ const setUpWorkArea = () => {
     toAdd.appendChild(toAddRow);
   }
   targetArea.appendChild(toAdd);
-}
-
-const addContent = () => {
   for(let key in content) {
     document.getElementById(`${key}`).innerText = content[key];
   }
-}
+  document.getElementById("workArea").addEventListener("dblclick", (e) => {
+    let target = document.getElementById(e.target.id);
+    if(!target) return;
+    let newKey = e.target.id;
+    target.innerHTML = `<input type="text" value=${target.innerText}>`;
+    target.firstChild.focus();
+    target.firstChild.addEventListener("blur", (e) => {
+      if(e.target.value === "") {
+        if (newKey in content) {
+          delete content[newKey];
+        }
+        target.removeChild(target.firstChild);
+      } else {
+        content[newKey] = e.target.value;
+        setUpWorkArea();
+      }
+    })
+  })
 
-const setUp = () => {
+  //Select one or more boxes
+  document.getElementById("workArea").addEventListener("click", (e) => {
+    let selectedElement = document.getElementById(e.target.id);
+    if(!selectedElement) return;
+    if(e.getModifierState("Meta")){
+      if(selection.includes(e.target.id)) {
+        selection.splice(selection.indexOf(e.target.id), 1);
+        selectedElement.style.backgroundColor = "lightblue";
+        return;
+      }
+      selection.push(e.target.id);
+      selectedElement.style.backgroundColor = "lightpink";
+    } else {
+      selection.forEach((element) => {
+        document.getElementById(element).style.backgroundColor = "lightblue";
+      });
+      selection.length = 0;
+      selection.push(e.target.id);
+      selectedElement.style.backgroundColor = "lightpink";
+    }
+  })
+};
+
+window.addEventListener("load", () => {
   setUpFullArea();
   setUpColumns();
   setUpRows();
   setUpWorkArea();
-  addContent();
-}
-
-window.addEventListener("load", () => {
-  setUp();
-
-  document.getElementById("workArea").addEventListener("click", (e) => {
-    let target = document.getElementById(e.target.id);
-    target.innerHTML = `<input type="text" value=${target.innerText}>`;
-    target.firstChild.focus();
-    target.firstChild.addEventListener("blur", (e) => {
-      target.innerHTML = e.target.value;
-    })
-  })
 });
