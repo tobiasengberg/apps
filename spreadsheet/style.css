@@ -1,0 +1,19 @@
+* {
+    box-sizing: border-box;
+}
+
+#setup div {
+    border: 1px solid white;
+}
+
+#setup input {
+    width: 100%;
+    height: 100%;
+    background-color: #c7eaf5;
+    border: none;
+    
+}
+
+#setup input:focus {
+    outline: none;
+}

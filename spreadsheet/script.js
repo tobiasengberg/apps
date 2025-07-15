@@ -5,13 +5,17 @@ const dimensions = {
   columns: 10,
 }
 
+const content = {
+  "2-4": 34,
+}
+
 const setUpFullArea = () => {
   let toAdd = document.getElementById("setup");
   let workWidth = 100 * dimensions.columns;
   let workHeight = 30 * dimensions.rows;
   toAdd.style.width = workWidth + 30 + "px";
   toAdd.style.height = workHeight + 30 + "px";
-  toAdd.style.backgroundColor = "lightblue";
+  toAdd.style.backgroundColor = "lightyellow";
   toAdd.style.display = "grid";
   toAdd.style.gridTemplateColumns = `30px ${workWidth}px`;
   toAdd.style.gridTemplateRows = `30px ${workHeight}px`;
@@ -54,7 +58,8 @@ const setUpRows = () => {
 const setUpWorkArea = () => {
   let targetArea = document.getElementById("setup");
   let toAdd = document.createElement("div");
-  toAdd.style.backgroundColor = "lightyellow";
+  toAdd.setAttribute("id", "workArea");
+  toAdd.style.backgroundColor = "lightblue";
   toAdd.style.gridColumn = "2";
   toAdd.style.gridRow = "2";
   toAdd.style.gridColumnEnd = "3";
@@ -69,6 +74,7 @@ const setUpWorkArea = () => {
       let toAddColumn = document.createElement("div");
       toAddColumn.style.width = "100px";
       toAddColumn.style.height = "30px";
+      toAddColumn.setAttribute("id", `${i + 1}-${j + 1}`);
       toAddRow.appendChild(toAddColumn);
     }
     toAdd.appendChild(toAddRow);
@@ -76,17 +82,29 @@ const setUpWorkArea = () => {
   targetArea.appendChild(toAdd);
 }
 
+const addContent = () => {
+  for(let key in content) {
+    document.getElementById(`${key}`).innerText = content[key];
+  }
+}
+
 const setUp = () => {
   setUpFullArea();
   setUpColumns();
   setUpRows();
   setUpWorkArea();
-
-
+  addContent();
 }
 
-window.addEventListener("load", setUp);
+window.addEventListener("load", () => {
+  setUp();
 
-// document.getElementsByTagName("table")[0].addEventListener("click", (e) => {
-//   e.target.innerHTML = `<input type="text" value=${e.target.innerText}></input>`;
-// });
+  document.getElementById("workArea").addEventListener("click", (e) => {
+    let target = document.getElementById(e.target.id);
+    target.innerHTML = `<input type="text" value=${target.innerText}>`;
+    target.firstChild.focus();
+    target.firstChild.addEventListener("blur", (e) => {
+      target.innerHTML = e.target.value;
+    })
+  })
+});
