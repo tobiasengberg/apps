@@ -9,6 +9,22 @@ const selection = [];
 
 const content = { };
 
+const addRow = () => {
+  dimensions.rows++;
+  setUpFullArea();
+  setUpColumns();
+  setUpRows();
+  setUpWorkArea();
+}
+
+const addColumn = () => {
+  dimensions.columns++;
+  setUpFullArea();
+  setUpColumns();
+  setUpRows();
+  setUpWorkArea();
+}
+
 const setUpFullArea = () => {
   let toAdd = document.getElementById("setup");
   let workWidth = 100 * dimensions.columns;
@@ -130,6 +146,12 @@ const setUpWorkArea = () => {
 };
 
 window.addEventListener("load", () => {
+  const trial = {
+    "foo": [23, () => 34 + 67]
+  }
+  trial.foo[0] = trial.foo[1]();
+  console.log(trial.foo[0]);
+
   setUpFullArea();
   setUpColumns();
   setUpRows();
