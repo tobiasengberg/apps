@@ -1,13 +1,15 @@
 
 
-const dimensions = {
+let dimensions = {
   rows: 10,
   columns: 10,
 }
 
 const selection = [];
 
-const content = { };
+let content = {
+  "5-6": 681
+};
 
 const addRow = () => {
   dimensions.rows++;
@@ -23,6 +25,90 @@ const addColumn = () => {
   setUpColumns();
   setUpRows();
   setUpWorkArea();
+}
+
+const addRowAbove = () => {
+  if(selection.length === 1) {
+    dimensions.rows++;
+    console.log(selection);
+    let newContent = {};
+    for(let key in content) {
+      let [row, column] = key.split("-");
+      if(parseInt(row) >= selection[0].split("-")[0]) {
+        newContent[`${parseInt(row) + 1}-${column}`] = content[`${parseInt(row)}-${column}`];
+      } else {
+        newContent[key] = content[key];
+      }
+    }
+    content = {...newContent};
+    setUpFullArea();
+    setUpColumns();
+    setUpRows();
+    setUpWorkArea();
+  }
+}
+
+const addRowBelow = () => {
+  if(selection.length === 1) {
+    dimensions.rows++;
+    console.log(selection);
+    let newContent = {};
+    for(let key in content) {
+      let [row, column] = key.split("-");
+      if(parseInt(row) > selection[0].split("-")[0]) {
+        newContent[`${parseInt(row) + 1}-${column}`] = content[`${parseInt(row)}-${column}`];
+      } else {
+        newContent[key] = content[key];
+      }
+    }
+    content = {...newContent};
+    setUpFullArea();
+    setUpColumns();
+    setUpRows();
+    setUpWorkArea();
+  }
+}
+
+const addColumnLeft = () => {
+  if(selection.length === 1) {
+    dimensions.columns++;
+    console.log(selection);
+    let newContent = {};
+    for(let key in content) {
+      let [row, column] = key.split("-");
+      if(parseInt(column) >= selection[0].split("-")[1]) {
+        newContent[`${row}-${parseInt(column) + 1}`] = content[`${row}-${parseInt(column)}`];
+      } else {
+        newContent[key] = content[key];
+      }
+    }
+    content = {...newContent};
+    setUpFullArea();
+    setUpColumns();
+    setUpRows();
+    setUpWorkArea();
+  }
+}
+
+const addColumnRight = () => {
+  if(selection.length === 1) {
+    dimensions.columns++;
+    console.log(selection);
+    let newContent = {};
+    for(let key in content) {
+      let [row, column] = key.split("-");
+      if(parseInt(column) > selection[0].split("-")[1]) {
+        newContent[`${row}-${parseInt(column) + 1}`] = content[`${row}-${parseInt(column)}`];
+      } else {
+        newContent[key] = content[key];
+      }
+    }
+    content = {...newContent};
+    setUpFullArea();
+    setUpColumns();
+    setUpRows();
+    setUpWorkArea();
+  }
 }
 
 const setUpFullArea = () => {
@@ -72,6 +158,8 @@ const setUpRows = () => {
 }
 
 const setUpWorkArea = () => {
+  localStorage.setItem("content", JSON.stringify(content));
+  localStorage.setItem("dimensions", JSON.stringify(dimensions));
   console.log("start");
   if (document.getElementById("workArea")) {
     document.getElementById("workArea").remove();
@@ -151,7 +239,15 @@ window.addEventListener("load", () => {
   }
   trial.foo[0] = trial.foo[1]();
   console.log(trial.foo[0]);
-
+  let contentHistory = localStorage.getItem("content");
+  if(contentHistory) {
+    content = JSON.parse(contentHistory);
+  }
+  let dimensionsHistory = localStorage.getItem("dimensions");
+  if(dimensionsHistory) {
+    dimensions = JSON.parse(dimensionsHistory);
+  }
+  console.log(content);
   setUpFullArea();
   setUpColumns();
   setUpRows();
