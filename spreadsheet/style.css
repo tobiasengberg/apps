@@ -2,6 +2,13 @@
     box-sizing: border-box;
 }
 
+body {
+    font-family: "Open Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-variation-settings:
+            "wdth" 100;
+}
+
 #menu {
     display: flex;
     flex-direction: row;
@@ -23,4 +30,20 @@
 
 #setup input:focus {
     outline: none;
+}
+
+.number {
+    text-align: right;
+}
+
+#workArea > div > div {
+    position: relative;
+}
+
+#workArea > div > div > svg {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    overflow: visible;
+    z-index: 9;
 }

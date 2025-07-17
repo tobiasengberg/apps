@@ -1,4 +1,4 @@
-
+import {getSelectRectangle} from "./modules/graphics.js";
 
 let dimensions = {
   rows: 10,
@@ -11,20 +11,31 @@ let content = {
   "5-6": 681
 };
 
-const addRow = () => {
-  dimensions.rows++;
+const parseExpression = (expression) => {
+  if(/^[0-9]*$/.test(expression)) return [expression, "number"];
+  if(expression.substring(0,4) == "SUM(") {
+    let values = expression.substring(4,expression.length -1).split(':');
+    let col = /^[A-Z]+/.exec(values[0]);
+    return [col, "sum"];
+  }
+  return [expression, "text"];
+}
+
+const updateSheet = () => {
   setUpFullArea();
   setUpColumns();
   setUpRows();
   setUpWorkArea();
 }
 
+const addRow = () => {
+  dimensions.rows++;
+  updateSheet();
+}
+
 const addColumn = () => {
   dimensions.columns++;
-  setUpFullArea();
-  setUpColumns();
-  setUpRows();
-  setUpWorkArea();
+  updateSheet();
 }
 
 const addRowAbove = () => {
@@ -41,10 +52,7 @@ const addRowAbove = () => {
       }
     }
     content = {...newContent};
-    setUpFullArea();
-    setUpColumns();
-    setUpRows();
-    setUpWorkArea();
+    updateSheet();
   }
 }
 
@@ -62,10 +70,7 @@ const addRowBelow = () => {
       }
     }
     content = {...newContent};
-    setUpFullArea();
-    setUpColumns();
-    setUpRows();
-    setUpWorkArea();
+    updateSheet();
   }
 }
 
@@ -83,10 +88,7 @@ const addColumnLeft = () => {
       }
     }
     content = {...newContent};
-    setUpFullArea();
-    setUpColumns();
-    setUpRows();
-    setUpWorkArea();
+    updateSheet();
   }
 }
 
@@ -104,10 +106,7 @@ const addColumnRight = () => {
       }
     }
     content = {...newContent};
-    setUpFullArea();
-    setUpColumns();
-    setUpRows();
-    setUpWorkArea();
+    updateSheet();
   }
 }
 
@@ -160,7 +159,7 @@ const setUpRows = () => {
 const setUpWorkArea = () => {
   localStorage.setItem("content", JSON.stringify(content));
   localStorage.setItem("dimensions", JSON.stringify(dimensions));
-  console.log("start");
+  console.log(content);
   if (document.getElementById("workArea")) {
     document.getElementById("workArea").remove();
   }
@@ -177,6 +176,7 @@ const setUpWorkArea = () => {
     toAddRow.style.width = `${100 * dimensions.columns}px`;
     toAddRow.style.height = "30px";
     toAddRow.style.display = "flex";
+    toAddRow.style.border = "none";
     toAddRow.style.flexDirection = "row";
     for(let j = 0; j < dimensions.columns; j++) {
       let toAddColumn = document.createElement("div");
@@ -189,7 +189,10 @@ const setUpWorkArea = () => {
   }
   targetArea.appendChild(toAdd);
   for(let key in content) {
-    document.getElementById(`${key}`).innerText = content[key];
+    let newContent = parseExpression(content[key]);
+    let newTarget = document.getElementById(`${key}`);
+    newTarget.innerText = newContent[0];
+    newTarget.setAttribute("class", newContent[1]);
   }
   document.getElementById("workArea").addEventListener("dblclick", (e) => {
     let target = document.getElementById(e.target.id);
@@ -208,6 +211,15 @@ const setUpWorkArea = () => {
         setUpWorkArea();
       }
     })
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if(e.key === "Escape" && selection.length > 0) {
+      selection.forEach((element) => {
+        document.getElementById(element).style.backgroundColor = "lightblue";
+      });
+      selection.length = 0;
+    }
   })
 
   //Select one or more boxes
@@ -222,6 +234,9 @@ const setUpWorkArea = () => {
       }
       selection.push(e.target.id);
       selectedElement.style.backgroundColor = "lightpink";
+      if(document.getElementById("selectRectangle")) {
+        document.getElementById("selectRectangle").remove();
+      }
     } else {
       selection.forEach((element) => {
         document.getElementById(element).style.backgroundColor = "lightblue";
@@ -229,6 +244,12 @@ const setUpWorkArea = () => {
       selection.length = 0;
       selection.push(e.target.id);
       selectedElement.style.backgroundColor = "lightpink";
+      let selectRectangle = getSelectRectangle();
+      if(document.getElementById("selectRectangle")) {
+        document.getElementById("selectRectangle").remove();
+      }
+      selectRectangle.setAttribute("id", "selectRectangle");
+      selectedElement.appendChild(selectRectangle);
     }
   })
 };
@@ -248,8 +269,5 @@ window.addEventListener("load", () => {
     dimensions = JSON.parse(dimensionsHistory);
   }
   console.log(content);
-  setUpFullArea();
-  setUpColumns();
-  setUpRows();
-  setUpWorkArea();
+  updateSheet();
 });
