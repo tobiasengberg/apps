@@ -36,14 +36,12 @@ body {
     text-align: right;
 }
 
-#workArea > div > div {
+#workArea {
     position: relative;
 }
 
-#workArea > div > div > svg {
+#selectRectangle {
     position: absolute;
-    top: -2px;
-    left: -2px;
     overflow: visible;
     z-index: 9;
 }

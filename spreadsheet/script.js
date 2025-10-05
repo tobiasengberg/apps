@@ -5,7 +5,7 @@ let dimensions = {
   columns: 10,
 }
 
-const selection = [];
+export const selection = [];
 
 let content = {
   "5-6": 681
@@ -28,17 +28,17 @@ const updateSheet = () => {
   setUpWorkArea();
 }
 
-const addRow = () => {
+document.getElementById("addRow").addEventListener("click", () => {
   dimensions.rows++;
   updateSheet();
-}
+});
 
-const addColumn = () => {
+document.getElementById("addColumn").addEventListener("click", () => {
   dimensions.columns++;
   updateSheet();
-}
+})
 
-const addRowAbove = () => {
+document.getElementById("addRowAbove").addEventListener("click", () => {
   if(selection.length === 1) {
     dimensions.rows++;
     console.log(selection);
@@ -54,9 +54,9 @@ const addRowAbove = () => {
     content = {...newContent};
     updateSheet();
   }
-}
+});
 
-const addRowBelow = () => {
+document.getElementById("addRowBelow").addEventListener("click", () => {
   if(selection.length === 1) {
     dimensions.rows++;
     console.log(selection);
@@ -72,12 +72,11 @@ const addRowBelow = () => {
     content = {...newContent};
     updateSheet();
   }
-}
+})
 
-const addColumnLeft = () => {
+document.getElementById("addColumnLeft").addEventListener("click", () => {
   if(selection.length === 1) {
     dimensions.columns++;
-    console.log(selection);
     let newContent = {};
     for(let key in content) {
       let [row, column] = key.split("-");
@@ -90,12 +89,11 @@ const addColumnLeft = () => {
     content = {...newContent};
     updateSheet();
   }
-}
+});
 
-const addColumnRight = () => {
+document.getElementById("addColumnRight").addEventListener("click", () => {
   if(selection.length === 1) {
     dimensions.columns++;
-    console.log(selection);
     let newContent = {};
     for(let key in content) {
       let [row, column] = key.split("-");
@@ -108,10 +106,11 @@ const addColumnRight = () => {
     content = {...newContent};
     updateSheet();
   }
-}
+})
 
 const setUpFullArea = () => {
   let toAdd = document.getElementById("setup");
+  toAdd.replaceChildren();
   let workWidth = 100 * dimensions.columns;
   let workHeight = 30 * dimensions.rows;
   toAdd.style.width = workWidth + 30 + "px";
@@ -159,13 +158,14 @@ const setUpRows = () => {
 const setUpWorkArea = () => {
   localStorage.setItem("content", JSON.stringify(content));
   localStorage.setItem("dimensions", JSON.stringify(dimensions));
-  console.log(content);
   if (document.getElementById("workArea")) {
     document.getElementById("workArea").remove();
   }
   let targetArea = document.getElementById("setup");
   let toAdd = document.createElement("div");
   toAdd.setAttribute("id", "workArea");
+  toAdd.style.width = `${100 * dimensions.columns}px`;
+  toAdd.style.height = `${30 * dimensions.rows}px`;
   toAdd.style.backgroundColor = "lightblue";
   toAdd.style.gridColumn = "2";
   toAdd.style.gridRow = "2";
@@ -222,6 +222,13 @@ const setUpWorkArea = () => {
     }
   })
 
+  document.getElementById("workArea").addEventListener("mousedown", (e) => {
+    console.log(e);
+    if (e.target.nodeName === "circle") {
+      console.log("circle");
+    }
+  });
+
   //Select one or more boxes
   document.getElementById("workArea").addEventListener("click", (e) => {
     let selectedElement = document.getElementById(e.target.id);
@@ -244,12 +251,17 @@ const setUpWorkArea = () => {
       selection.length = 0;
       selection.push(e.target.id);
       selectedElement.style.backgroundColor = "lightpink";
-      let selectRectangle = getSelectRectangle();
-      if(document.getElementById("selectRectangle")) {
-        document.getElementById("selectRectangle").remove();
+
+      if(!document.getElementById("selectRectangle")) {
+        let selectRectangle = getSelectRectangle();
+        selectRectangle.setAttribute("id", "selectRectangle");
+        document.getElementById("workArea").appendChild(selectRectangle);
       }
-      selectRectangle.setAttribute("id", "selectRectangle");
-      selectedElement.appendChild(selectRectangle);
+      let selectRectangle = document.getElementById("selectRectangle");
+      selectRectangle.setAttribute("width", e.target.offsetWidth + "px");
+      selectRectangle.setAttribute("height", e.target.offsetHeight + "px");
+      selectRectangle.style.top = e.target.offsetTop + "px";
+      selectRectangle.style.left = e.target.offsetLeft + "px";
     }
   })
 };
