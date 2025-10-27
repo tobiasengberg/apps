@@ -1,4 +1,6 @@
 import {getSelectRectangle} from "./modules/graphics.js";
+import {parseExpression} from "./modules/expression-parsing.js";
+import {setUpColumns, setUpFullArea, setUpRows} from "./modules/setUp.js";
 
 let dimensions = {
   rows: 10,
@@ -11,22 +13,14 @@ let content = {
   "5-6": 681
 };
 
-const parseExpression = (expression) => {
-  if(/^[0-9]*$/.test(expression)) return [expression, "number"];
-  if(expression.substring(0,4) == "SUM(") {
-    let values = expression.substring(4,expression.length -1).split(':');
-    let col = /^[A-Z]+/.exec(values[0]);
-    return [col, "sum"];
-  }
-  return [expression, "text"];
-}
 
 const updateSheet = () => {
-  setUpFullArea();
-  setUpColumns();
-  setUpRows();
+  setUpFullArea(dimensions);
+  setUpColumns(dimensions);
+  setUpRows(dimensions);
   setUpWorkArea();
 }
+
 
 document.getElementById("addRow").addEventListener("click", () => {
   dimensions.rows++;
@@ -41,7 +35,6 @@ document.getElementById("addColumn").addEventListener("click", () => {
 document.getElementById("addRowAbove").addEventListener("click", () => {
   if(selection.length === 1) {
     dimensions.rows++;
-    console.log(selection);
     let newContent = {};
     for(let key in content) {
       let [row, column] = key.split("-");
@@ -59,7 +52,6 @@ document.getElementById("addRowAbove").addEventListener("click", () => {
 document.getElementById("addRowBelow").addEventListener("click", () => {
   if(selection.length === 1) {
     dimensions.rows++;
-    console.log(selection);
     let newContent = {};
     for(let key in content) {
       let [row, column] = key.split("-");
@@ -108,52 +100,7 @@ document.getElementById("addColumnRight").addEventListener("click", () => {
   }
 })
 
-const setUpFullArea = () => {
-  let toAdd = document.getElementById("setup");
-  toAdd.replaceChildren();
-  let workWidth = 100 * dimensions.columns;
-  let workHeight = 30 * dimensions.rows;
-  toAdd.style.width = workWidth + 30 + "px";
-  toAdd.style.height = workHeight + 30 + "px";
-  toAdd.style.backgroundColor = "lightyellow";
-  toAdd.style.display = "grid";
-  toAdd.style.gridTemplateColumns = `30px ${workWidth}px`;
-  toAdd.style.gridTemplateRows = `30px ${workHeight}px`;
-}
 
-const setUpColumns = () => {
-  let targetArea = document.getElementById("setup");
-  let toAdd = document.createElement("div");
-  toAdd.style.backgroundColor = "lightgreen";
-  toAdd.style.gridColumn = "2";
-  toAdd.style.gridRow = "1";
-  toAdd.style.gridRowEnd = "2";
-  toAdd.style.display = "grid";
-  toAdd.style.gridTemplateColumns = `repeat(${dimensions.columns}, 100px)`;
-  for(let i = 0; i < dimensions.columns; i++) {
-    let toAddColumn = document.createElement("div");
-    toAddColumn.innerText = String.fromCharCode(65 + i);
-    toAdd.appendChild(toAddColumn);
-  }
-  targetArea.appendChild(toAdd);
-}
-
-const setUpRows = () => {
-  let targetArea = document.getElementById("setup");
-  let toAdd = document.createElement("div");
-  toAdd.style.backgroundColor = "lightgreen";
-  toAdd.style.gridColumn = "1";
-  toAdd.style.gridRow = "2";
-  toAdd.style.gridColumnEnd = "2";
-  toAdd.style.display = "grid";
-  toAdd.style.gridTemplateRows = `repeat(${dimensions.rows}, 30px)`;
-  for(let i = 0; i < dimensions.rows; i++) {
-    let toAddRow = document.createElement("div");
-    toAddRow.innerText = i + 1 + "";
-    toAdd.appendChild(toAddRow);
-  }
-  targetArea.appendChild(toAdd);
-}
 
 const setUpWorkArea = () => {
   localStorage.setItem("content", JSON.stringify(content));
@@ -194,6 +141,8 @@ const setUpWorkArea = () => {
     newTarget.innerText = newContent[0];
     newTarget.setAttribute("class", newContent[1]);
   }
+
+
   document.getElementById("workArea").addEventListener("dblclick", (e) => {
     let target = document.getElementById(e.target.id);
     if(!target) return;
