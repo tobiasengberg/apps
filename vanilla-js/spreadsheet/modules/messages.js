@@ -1,4 +1,4 @@
 export const messages = {
-    411: "Column contains data",
-    412: "Row contains data",
+    411: "Unable, because column contains data",
+    412: "Unable, because row contains data",
 }

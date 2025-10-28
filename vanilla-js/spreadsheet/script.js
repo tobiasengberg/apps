@@ -127,14 +127,7 @@ const setUpWorkArea = () => {
     })
   });
 
-  document.addEventListener("keydown", (e) => {
-    if(e.key === "Escape" && selection.length > 0) {
-      selection.forEach((element) => {
-        document.getElementById(element).style.backgroundColor = "lightblue";
-      });
-      selection.length = 0;
-    }
-  })
+
 
   document.getElementById("workArea").addEventListener("mousedown", (e) => {
     console.log(e);
@@ -177,6 +170,17 @@ const setUpWorkArea = () => {
       selectRectangle.style.top = e.target.offsetTop + "px";
       selectRectangle.style.left = e.target.offsetLeft + "px";
     }
+
+      document.addEventListener("keydown", (e) => {
+          console.log(e.key);
+          if(e.key === "Escape" && selection.length > 0) {
+              selection.forEach((element) => {
+                  document.getElementById(element).style.backgroundColor = "lightblue";
+              });
+              selection.length = 0;
+          }
+      })
+      if(selection.length == 0) document.removeEventListener("keydown", (e) => {});
   })
 };
 
