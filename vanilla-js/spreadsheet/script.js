@@ -22,21 +22,28 @@ const updateSheet = () => {
 }
 
 const commands = {
-    addRow: () => dimensions.rows++,
-    addColumn: () => dimensions.columns++,
-    addRowAbove: () => handleTable(true, (a, b) => a >= b ),
-    addRowBelow: () => handleTable(true, (a, b) => a > b ),
-    addColumnLeft: () => handleTable(false, (a, b) => a >= b ),
-    addColumnRight: () => handleTable(false, (a, b) => a > b )
+    addRow: () => removeFromTable(true),
+    addColumn: () => removeFromTable(false),
+    addRowAbove: () => addToTable(true, (a, b) => a >= b ),
+    addRowBelow: () => addToTable(true, (a, b) => a > b ),
+    addColumnLeft: () => addToTable(false, (a, b) => a >= b ),
+    addColumnRight: () => addToTable(false, (a, b) => a > b ),
+    removeRow: () => dimensions.rows--,
+    removeColumn: () => dimensions.columns--
 }
 
 document.getElementById("menu").addEventListener("click", (e) => {
-    commands[e.target.id]();
+    let outcome = commands[e.target.id]();
+    console.log(outcome);
     updateSheet();
 });
 
+const removeFromTable = (isRow) => {
+    isRow ? dimensions.rows-- : dimensions.columns--;
+}
+
 // parameter "comparison" is a function with two parameters and an operator of either ">" or ">="
- const handleTable = (isRow, comparison) => {
+ const addToTable = (isRow, comparison) => {
     if(selection.length === 1) {
         isRow ? dimensions.rows++ : dimensions.columns++;
         let newContent = {};
@@ -50,6 +57,7 @@ document.getElementById("menu").addEventListener("click", (e) => {
         }
         content = {...newContent};
     }
+    return "ok";
 }
 
 
