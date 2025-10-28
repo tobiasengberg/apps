@@ -21,33 +21,21 @@ const updateSheet = () => {
   setUpWorkArea();
 }
 
+const commands = {
+    addRow: () => dimensions.rows++,
+    addColumn: () => dimensions.columns++,
+    addRowAbove: () => handleTable(true, (a, b) => a >= b ),
+    addRowBelow: () => handleTable(true, (a, b) => a > b ),
+    addColumnLeft: () => handleTable(false, (a, b) => a >= b ),
+    addColumnRight: () => handleTable(false, (a, b) => a > b )
+}
+
 document.getElementById("menu").addEventListener("click", (e) => {
-    console.log(e.target.id);
-    switch(e.target.id) {
-        case "addRow":
-            dimensions.rows++;
-            break;
-        case "addColumn":
-            dimensions.columns++;
-            break;
-        case "addRowAbove":
-            handleTable(true, (a, b) => a >= b );
-            break
-        case "addRowBelow":
-            handleTable(true, (a, b) => a > b );
-            break;
-        case "addColumnLeft":
-            handleTable(false, (a, b) => a >= b );
-            break;
-        case "addColumnRight":
-            handleTable(false, (a, b) => a > b );
-            break;
-        default:
-            break;
-    }
+    commands[e.target.id]();
     updateSheet();
 });
 
+// parameter "comparison" is a function with two parameters and an operator of either ">" or ">="
  const handleTable = (isRow, comparison) => {
     if(selection.length === 1) {
         isRow ? dimensions.rows++ : dimensions.columns++;
@@ -180,11 +168,6 @@ const setUpWorkArea = () => {
 };
 
 window.addEventListener("load", () => {
-  const trial = {
-    "foo": [23, () => 34 + 67]
-  }
-  trial.foo[0] = trial.foo[1]();
-  console.log(trial.foo[0]);
   let contentHistory = localStorage.getItem("content");
   if(contentHistory) {
     content = JSON.parse(contentHistory);
@@ -193,6 +176,5 @@ window.addEventListener("load", () => {
   if(dimensionsHistory) {
     dimensions = JSON.parse(dimensionsHistory);
   }
-  console.log(content);
   updateSheet();
 });
