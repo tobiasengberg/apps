@@ -22,14 +22,16 @@ const updateSheet = () => {
 }
 
 const commands = {
-    addRow: () => removeFromTable(true),
-    addColumn: () => removeFromTable(false),
-    addRowAbove: () => addToTable(true, (a, b) => a >= b ),
-    addRowBelow: () => addToTable(true, (a, b) => a > b ),
-    addColumnLeft: () => addToTable(false, (a, b) => a >= b ),
-    addColumnRight: () => addToTable(false, (a, b) => a > b ),
-    removeRow: () => dimensions.rows--,
-    removeColumn: () => dimensions.columns--
+    addRow: () => dimensions.rows++,
+    addColumn: () => dimensions.columns++,
+    addRowAbove: () => alterTableSize(true, (a, b) => a >= b, 1 ),
+    addRowBelow: () => alterTableSize(true, (a, b) => a > b, 1 ),
+    addColumnLeft: () => alterTableSize(false, (a, b) => a >= b, 1 ),
+    addColumnRight: () => alterTableSize(false, (a, b) => a > b, 1 ),
+    removeRowAbove: () => alterTableSize(true, (a, b) => a >= b, -1),
+    removeRowBelow: () => alterTableSize(true, (a, b) => a > b, -1),
+    removeColumnLeft: () => alterTableSize(false, (a, b) => a >= b, -1),
+    removeColumnRight: () => alterTableSize(false, (a, b) => a > b, -1)
 }
 
 document.getElementById("menu").addEventListener("click", (e) => {
@@ -38,29 +40,30 @@ document.getElementById("menu").addEventListener("click", (e) => {
     updateSheet();
 });
 
-const removeFromTable = (isRow) => {
-    isRow ? dimensions.rows-- : dimensions.columns--;
-}
-
 // parameter "comparison" is a function with two parameters and an operator of either ">" or ">="
- const addToTable = (isRow, comparison) => {
+const alterTableSize = (isRow, comparison, number) => {
     if(selection.length === 1) {
-        isRow ? dimensions.rows++ : dimensions.columns++;
+        isRow ? dimensions.rows = dimensions.rows + number : dimensions.columns = dimensions.columns + number;
         let newContent = {};
         for(let key in content) {
             let [row, column] = key.split("-");
             if(comparison(parseInt(isRow ? row : column), selection[0].split("-")[isRow ? 0 : 1])) {
-                newContent[`${isRow ? parseInt(row) + 1 : row}-${isRow ? column : parseInt(column) + 1}`] = content[`${row}-${column}`];
+                newContent[`${isRow ? parseInt(row) + number : row}-${isRow ? column : parseInt(column) + number}`] = content[`${row}-${column}`];
             } else {
                 newContent[key] = content[key];
             }
         }
         content = {...newContent};
     }
-    return "ok";
 }
 
+const doesRowContain = () => {
+    return false;
+}
 
+const doesColumnContain = () => {
+    return false;
+}
 
 const setUpWorkArea = () => {
   localStorage.setItem("content", JSON.stringify(content));
