@@ -1,6 +1,7 @@
 import {getSelectRectangle} from "./modules/graphics.js";
 import {parseExpression} from "./modules/expression-parsing.js";
 import {setUpColumns, setUpFullArea, setUpRows} from "./modules/setUp.js";
+import { messages } from "./modules/messages.js";
 
 let dimensions = {
   rows: 10,
@@ -36,19 +37,20 @@ const commands = {
 
 document.getElementById("menu").addEventListener("click", (e) => {
     let outcome = commands[e.target.id]();
-    console.log(outcome);
+    let canRemove = doesRowContain();
+    console.log(messages[canRemove.message]);
     updateSheet();
 });
 
 // parameter "comparison" is a function with two parameters and an operator of either ">" or ">="
-const alterTableSize = (isRow, comparison, number) => {
+const alterTableSize = (isRow, comparison, change) => {
     if(selection.length === 1) {
-        isRow ? dimensions.rows = dimensions.rows + number : dimensions.columns = dimensions.columns + number;
+        isRow ? dimensions.rows = dimensions.rows + change : dimensions.columns = dimensions.columns + change;
         let newContent = {};
         for(let key in content) {
             let [row, column] = key.split("-");
             if(comparison(parseInt(isRow ? row : column), selection[0].split("-")[isRow ? 0 : 1])) {
-                newContent[`${isRow ? parseInt(row) + number : row}-${isRow ? column : parseInt(column) + number}`] = content[`${row}-${column}`];
+                newContent[`${isRow ? parseInt(row) + change : row}-${isRow ? column : parseInt(column) + change}`] = content[`${row}-${column}`];
             } else {
                 newContent[key] = content[key];
             }
@@ -58,11 +60,11 @@ const alterTableSize = (isRow, comparison, number) => {
 }
 
 const doesRowContain = () => {
-    return false;
+    return { message: 412 };
 }
 
 const doesColumnContain = () => {
-    return false;
+    return { message: 411 };
 }
 
 const setUpWorkArea = () => {
