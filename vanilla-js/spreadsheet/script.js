@@ -21,84 +21,48 @@ const updateSheet = () => {
   setUpWorkArea();
 }
 
-
-document.getElementById("addRow").addEventListener("click", () => {
-  dimensions.rows++;
-  updateSheet();
+document.getElementById("menu").addEventListener("click", (e) => {
+    console.log(e.target.id);
+    switch(e.target.id) {
+        case "addRow":
+            dimensions.rows++;
+            break;
+        case "addColumn":
+            dimensions.columns++;
+            break;
+        case "addRowAbove":
+            handleTable(true, (a, b) => a >= b );
+            break
+        case "addRowBelow":
+            handleTable(true, (a, b) => a > b );
+            break;
+        case "addColumnLeft":
+            handleTable(false, (a, b) => a >= b );
+            break;
+        case "addColumnRight":
+            handleTable(false, (a, b) => a > b );
+            break;
+        default:
+            break;
+    }
+    updateSheet();
 });
 
-document.getElementById("addColumn").addEventListener("click", () => {
-  dimensions.columns++;
-  updateSheet();
-})
-
-document.getElementById("addRowAbove").addEventListener("click", () => {
-  if(selection.length === 1) {
-    dimensions.rows++;
-    let newContent = {};
-    for(let key in content) {
-      let [row, column] = key.split("-");
-      if(parseInt(row) >= selection[0].split("-")[0]) {
-        newContent[`${parseInt(row) + 1}-${column}`] = content[`${parseInt(row)}-${column}`];
-      } else {
-        newContent[key] = content[key];
-      }
+ const handleTable = (isRow, comparison) => {
+    if(selection.length === 1) {
+        isRow ? dimensions.rows++ : dimensions.columns++;
+        let newContent = {};
+        for(let key in content) {
+            let [row, column] = key.split("-");
+            if(comparison(parseInt(isRow ? row : column), selection[0].split("-")[isRow ? 0 : 1])) {
+                newContent[`${isRow ? parseInt(row) + 1 : row}-${isRow ? column : parseInt(column) + 1}`] = content[`${row}-${column}`];
+            } else {
+                newContent[key] = content[key];
+            }
+        }
+        content = {...newContent};
     }
-    content = {...newContent};
-    updateSheet();
-  }
-});
-
-document.getElementById("addRowBelow").addEventListener("click", () => {
-  if(selection.length === 1) {
-    dimensions.rows++;
-    let newContent = {};
-    for(let key in content) {
-      let [row, column] = key.split("-");
-      if(parseInt(row) > selection[0].split("-")[0]) {
-        newContent[`${parseInt(row) + 1}-${column}`] = content[`${parseInt(row)}-${column}`];
-      } else {
-        newContent[key] = content[key];
-      }
-    }
-    content = {...newContent};
-    updateSheet();
-  }
-})
-
-document.getElementById("addColumnLeft").addEventListener("click", () => {
-  if(selection.length === 1) {
-    dimensions.columns++;
-    let newContent = {};
-    for(let key in content) {
-      let [row, column] = key.split("-");
-      if(parseInt(column) >= selection[0].split("-")[1]) {
-        newContent[`${row}-${parseInt(column) + 1}`] = content[`${row}-${parseInt(column)}`];
-      } else {
-        newContent[key] = content[key];
-      }
-    }
-    content = {...newContent};
-    updateSheet();
-  }
-});
-
-document.getElementById("addColumnRight").addEventListener("click", () => {
-  if(selection.length === 1) {
-    dimensions.columns++;
-    let newContent = {};
-    for(let key in content) {
-      let [row, column] = key.split("-");
-      if(parseInt(column) > selection[0].split("-")[1]) {
-        newContent[`${row}-${parseInt(column) + 1}`] = content[`${row}-${parseInt(column)}`];
-      } else {
-        newContent[key] = content[key];
-      }
-    }
-    content = {...newContent};
-    updateSheet();
-  }
-})
+}
 
 
 
