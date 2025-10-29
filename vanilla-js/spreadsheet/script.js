@@ -3,17 +3,18 @@ import {parseExpression} from "./modules/expression-parsing.js";
 import {setUpColumns, setUpFullArea, setUpRows} from "./modules/setUp.js";
 import { messages } from "./modules/messages.js";
 
-let dimensions = {
+export let dimensions = {
   rows: 10,
   columns: 10,
 }
 
+
+
 export const selection = [];
 
-let content = {
+export let content = {
   "5-6": 681
 };
-
 
 const updateSheet = () => {
   setUpFullArea(dimensions);
@@ -22,42 +23,16 @@ const updateSheet = () => {
   setUpWorkArea();
 }
 
-const commands = {
-    addRow: () => dimensions.rows++,
-    addColumn: () => dimensions.columns++,
-    addRowAbove: () => alterTableSize(true, (a, b) => a >= b, 1 ),
-    addRowBelow: () => alterTableSize(true, (a, b) => a > b, 1 ),
-    addColumnLeft: () => alterTableSize(false, (a, b) => a >= b, 1 ),
-    addColumnRight: () => alterTableSize(false, (a, b) => a > b, 1 ),
-    removeRowAbove: () => alterTableSize(true, (a, b) => a >= b, -1),
-    removeRowBelow: () => alterTableSize(true, (a, b) => a > b, -1),
-    removeColumnLeft: () => alterTableSize(false, (a, b) => a >= b, -1),
-    removeColumnRight: () => alterTableSize(false, (a, b) => a > b, -1)
-}
+
 
 document.getElementById("menu").addEventListener("click", (e) => {
-    let outcome = commands[e.target.id]();
+    let outcome = tableCommands[e.target.id]();
     let canRemove = doesRowContain();
     console.log(messages[canRemove.message]);
     updateSheet();
 });
 
-// parameter "comparison" is a function with two parameters and an operator of either ">" or ">="
-const alterTableSize = (isRow, comparison, change) => {
-    if(selection.length === 1) {
-        isRow ? dimensions.rows = dimensions.rows + change : dimensions.columns = dimensions.columns + change;
-        let newContent = {};
-        for(let key in content) {
-            let [row, column] = key.split("-");
-            if(comparison(parseInt(isRow ? row : column), selection[0].split("-")[isRow ? 0 : 1])) {
-                newContent[`${isRow ? parseInt(row) + change : row}-${isRow ? column : parseInt(column) + change}`] = content[`${row}-${column}`];
-            } else {
-                newContent[key] = content[key];
-            }
-        }
-        content = {...newContent};
-    }
-}
+
 
 const doesRowContain = () => {
     return { message: 412 };
@@ -95,11 +70,11 @@ const setUpWorkArea = () => {
     let newContent = parseExpression(content[key]);
     let newTarget = document.getElementById(`${key}`);
     newTarget.innerText = newContent[0];
-    newTarget.setAttribute("class", newContent[1]);
+    newTarget.classList.add(newContent[1]);
   }
 
-
   document.getElementById("workArea").addEventListener("dblclick", (e) => {
+      console.log(e);
     let target = document.getElementById(e.target.id);
     if(!target) return;
     let newKey = e.target.id;
@@ -120,12 +95,12 @@ const setUpWorkArea = () => {
 
 
 
-  document.getElementById("workArea").addEventListener("mousedown", (e) => {
-    console.log(e);
-    if (e.target.nodeName === "circle") {
-      console.log("circle");
-    }
-  });
+    document.getElementById("workArea").addEventListener("mousedown", (e) => {
+        console.log(e);
+        if (e.target.nodeName === "circle") {
+            console.log("circle");
+        }
+    });
 
   //Select one or more boxes
   document.getElementById("workArea").addEventListener("click", (e) => {
