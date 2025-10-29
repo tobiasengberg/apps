@@ -16,6 +16,11 @@ body {
     justify-content: flex-start;
 }
 
+#setup {
+    display: grid;
+    background-color: lightyellow;
+}
+
 #setup div {
     border: 1px solid white;
 }
@@ -32,14 +37,46 @@ body {
     outline: none;
 }
 
+#rows-bar {
+    background-color: lightgreen;
+    grid-column: 1;
+    grid-row: 2;
+    grid-column-end: 2;
+    display: grid;
+}
+
+#columns-bar {
+    background-color: lightgreen;
+    grid-column: 2;
+    grid-row: 1;
+    grid-row-end: 2;
+    display: grid;
+}
+
 .number {
     text-align: right;
 }
 
 #workArea {
     position: relative;
+    background-color: lightblue;
+    grid-column: 2;
+    grid-row: 2;
+    grid-column-end: 3;
+    grid-row-end: 3;
 }
 
+.sheet-row {
+    height: 30px;
+    display: flex;
+    border: none;
+    flex-direction: row;
+}
+
+.sheet-column {
+    width: 100px;
+    height: 30px;
+}
 #selectRectangle {
     position: absolute;
     overflow: visible;

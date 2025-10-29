@@ -78,22 +78,13 @@ const setUpWorkArea = () => {
   toAdd.setAttribute("id", "workArea");
   toAdd.style.width = `${100 * dimensions.columns}px`;
   toAdd.style.height = `${30 * dimensions.rows}px`;
-  toAdd.style.backgroundColor = "lightblue";
-  toAdd.style.gridColumn = "2";
-  toAdd.style.gridRow = "2";
-  toAdd.style.gridColumnEnd = "3";
-  toAdd.style.gridRowEnd = "3";
   for(let i = 0; i < dimensions.rows; i++) {
     let toAddRow = document.createElement("div");
+    toAddRow.setAttribute("class", "sheet-row");
     toAddRow.style.width = `${100 * dimensions.columns}px`;
-    toAddRow.style.height = "30px";
-    toAddRow.style.display = "flex";
-    toAddRow.style.border = "none";
-    toAddRow.style.flexDirection = "row";
     for(let j = 0; j < dimensions.columns; j++) {
       let toAddColumn = document.createElement("div");
-      toAddColumn.style.width = "100px";
-      toAddColumn.style.height = "30px";
+      toAddColumn.setAttribute("class", "sheet-column");
       toAddColumn.setAttribute("id", `${i + 1}-${j + 1}`);
       toAddRow.appendChild(toAddColumn);
     }
