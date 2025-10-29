@@ -1,13 +1,13 @@
 import {tableCommands} from "../commands/table-commands.js";
-import {messages} from "../messages.js";
 import {config} from "../data/config.js";
+import {updateContent, updateSheet} from "../setup/setup.js";
 import {getSelectRectangle} from "../graphics.js";
 
 export const loadEventListeners = () => {
     document.getElementById("menu").addEventListener("click", (e) => {
         let outcome = tableCommands[e.target.id]();
-        let canRemove = doesRowContain();
-        console.log(messages[canRemove.message]);
+        // let canRemove = doesRowContain();
+        // console.log(messages[canRemove.message]);
         updateSheet();
     });
 
@@ -18,7 +18,7 @@ export const loadEventListeners = () => {
         let newKey = e.target.id;
         target.innerHTML = `<input type="text" value=${target.innerText}>`;
         target.firstChild.focus();
-        target.firstChild.addEventListener("blur", (e) => {
+        const getValue = (e) => {
             if(e.target.value === "") {
                 if (newKey in config.content) {
                     delete config.content[newKey];
@@ -26,19 +26,21 @@ export const loadEventListeners = () => {
                 target.removeChild(target.firstChild);
             } else {
                 config.content[newKey] = e.target.value;
-                setupWorkArea();
+                updateContent();
             }
-        })
+        }
+        target.firstChild.addEventListener("blur", getValue);
     });
 
-    document.getElementById("workArea").addEventListener("mousedown", (e) => {
+    /*document.getElementById("workArea").addEventListener("mousedown", (e) => {
         console.log(e);
         if (e.target.nodeName === "circle") {
             console.log("circle");
         }
     });
-
+*/
     document.getElementById("workArea").addEventListener("click", (e) => {
+        console.log(e.target.id);
         let selectedElement = document.getElementById(e.target.id);
         if(!selectedElement) return;
         if(e.getModifierState("Meta")){
