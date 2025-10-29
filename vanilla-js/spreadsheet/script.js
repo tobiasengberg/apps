@@ -3,23 +3,21 @@ import {parseExpression} from "./modules/expression-parsing.js";
 import {setUpColumns, setUpFullArea, setUpRows} from "./modules/setUp.js";
 import { messages } from "./modules/messages.js";
 
-export let dimensions = {
-  rows: 10,
-  columns: 10,
+export const config = {
+    dimensions: {
+        rows: 10,
+        columns: 10,
+    },
+    selection: [],
+    content: {
+        "5-6": 681
+    }
 }
 
-
-
-export const selection = [];
-
-export let content = {
-  "5-6": 681
-};
-
 const updateSheet = () => {
-  setUpFullArea(dimensions);
-  setUpColumns(dimensions);
-  setUpRows(dimensions);
+  setUpFullArea(config.dimensions);
+  setUpColumns(config.dimensions);
+  setUpRows(config.dimensions);
   setUpWorkArea();
 }
 
@@ -43,21 +41,21 @@ const doesColumnContain = () => {
 }
 
 const setUpWorkArea = () => {
-  localStorage.setItem("content", JSON.stringify(content));
-  localStorage.setItem("dimensions", JSON.stringify(dimensions));
+  localStorage.setItem("content", JSON.stringify(config.content));
+  localStorage.setItem("dimensions", JSON.stringify(config.dimensions));
   if (document.getElementById("workArea")) {
     document.getElementById("workArea").remove();
   }
   let targetArea = document.getElementById("setup");
   let toAdd = document.createElement("div");
   toAdd.setAttribute("id", "workArea");
-  toAdd.style.width = `${100 * dimensions.columns}px`;
-  toAdd.style.height = `${30 * dimensions.rows}px`;
-  for(let i = 0; i < dimensions.rows; i++) {
+  toAdd.style.width = `${100 * config.dimensions.columns}px`;
+  toAdd.style.height = `${30 * config.dimensions.rows}px`;
+  for(let i = 0; i < config.dimensions.rows; i++) {
     let toAddRow = document.createElement("div");
     toAddRow.setAttribute("class", "sheet-row");
-    toAddRow.style.width = `${100 * dimensions.columns}px`;
-    for(let j = 0; j < dimensions.columns; j++) {
+    toAddRow.style.width = `${100 * config.dimensions.columns}px`;
+    for(let j = 0; j < config.dimensions.columns; j++) {
       let toAddColumn = document.createElement("div");
       toAddColumn.setAttribute("class", "sheet-column");
       toAddColumn.setAttribute("id", `${i + 1}-${j + 1}`);
@@ -66,8 +64,8 @@ const setUpWorkArea = () => {
     toAdd.appendChild(toAddRow);
   }
   targetArea.appendChild(toAdd);
-  for(let key in content) {
-    let newContent = parseExpression(content[key]);
+  for(let key in config.content) {
+    let newContent = parseExpression(config.content[key]);
     let newTarget = document.getElementById(`${key}`);
     newTarget.innerText = newContent[0];
     newTarget.classList.add(newContent[1]);
@@ -82,12 +80,12 @@ const setUpWorkArea = () => {
     target.firstChild.focus();
     target.firstChild.addEventListener("blur", (e) => {
       if(e.target.value === "") {
-        if (newKey in content) {
-          delete content[newKey];
+        if (newKey in config.content) {
+          delete config.content[newKey];
         }
         target.removeChild(target.firstChild);
       } else {
-        content[newKey] = e.target.value;
+          config.content[newKey] = e.target.value;
         setUpWorkArea();
       }
     })
@@ -107,22 +105,22 @@ const setUpWorkArea = () => {
     let selectedElement = document.getElementById(e.target.id);
     if(!selectedElement) return;
     if(e.getModifierState("Meta")){
-      if(selection.includes(e.target.id)) {
-        selection.splice(selection.indexOf(e.target.id), 1);
+      if(config.selection.includes(e.target.id)) {
+          config.selection.splice(config.selection.indexOf(e.target.id), 1);
         selectedElement.style.backgroundColor = "lightblue";
         return;
       }
-      selection.push(e.target.id);
+        config.selection.push(e.target.id);
       selectedElement.style.backgroundColor = "lightpink";
       if(document.getElementById("selectRectangle")) {
         document.getElementById("selectRectangle").remove();
       }
     } else {
-      selection.forEach((element) => {
+        config.selection.forEach((element) => {
         document.getElementById(element).style.backgroundColor = "lightblue";
       });
-      selection.length = 0;
-      selection.push(e.target.id);
+        config.selection.length = 0;
+        config.selection.push(e.target.id);
       selectedElement.style.backgroundColor = "lightpink";
 
       if(!document.getElementById("selectRectangle")) {
@@ -139,25 +137,25 @@ const setUpWorkArea = () => {
 
       document.addEventListener("keydown", (e) => {
           console.log(e.key);
-          if(e.key === "Escape" && selection.length > 0) {
-              selection.forEach((element) => {
+          if(e.key === "Escape" && config.selection.length > 0) {
+              config.selection.forEach((element) => {
                   document.getElementById(element).style.backgroundColor = "lightblue";
               });
-              selection.length = 0;
+              config.selection.length = 0;
           }
       })
-      if(selection.length == 0) document.removeEventListener("keydown", (e) => {});
+      if(config.selection.length == 0) document.removeEventListener("keydown", (e) => {});
   })
 };
 
 window.addEventListener("load", () => {
   let contentHistory = localStorage.getItem("content");
   if(contentHistory) {
-    content = JSON.parse(contentHistory);
+      config.content = JSON.parse(contentHistory);
   }
   let dimensionsHistory = localStorage.getItem("dimensions");
   if(dimensionsHistory) {
-    dimensions = JSON.parse(dimensionsHistory);
+      config.dimensions = JSON.parse(dimensionsHistory);
   }
   updateSheet();
 });
