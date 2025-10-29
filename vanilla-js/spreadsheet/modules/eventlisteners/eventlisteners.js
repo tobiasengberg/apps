@@ -20,28 +20,38 @@ export const loadEventListeners = () => {
         target.firstChild.focus();
         const getValue = (e) => {
             if(e.target.value === "") {
-                if (newKey in config.content) {
-                    delete config.content[newKey];
-                }
+                config.content = [...config.content.filter((item) => item.id !== newKey)];
                 target.removeChild(target.firstChild);
             } else {
-                config.content[newKey] = e.target.value;
+                let item = config.content.filter((item) => item.id === newKey);
+                if(item.length === 0) {
+                    config.content.push({
+                        value: e.target.value,
+                        id: newKey,
+                        column: parseInt(newKey.split("-")[1]),
+                        row: parseInt(newKey.split("-")[0]),
+                        style: []
+                    });
+                } else {
+                    item[0].value = e.target.value;
+                }
                 updateContent();
             }
         }
         target.firstChild.addEventListener("blur", getValue);
     });
 
-    /*document.getElementById("workArea").addEventListener("mousedown", (e) => {
+    document.getElementById("workArea").addEventListener("mousedown", (e) => {
         console.log(e);
         if (e.target.nodeName === "circle") {
             console.log("circle");
         }
     });
-*/
+
     document.getElementById("workArea").addEventListener("click", (e) => {
         console.log(e.target.id);
         let selectedElement = document.getElementById(e.target.id);
+        let selectRectangle;
         if(!selectedElement) return;
         if(e.getModifierState("Meta")){
             if(config.selection.includes(e.target.id)) {
@@ -63,11 +73,11 @@ export const loadEventListeners = () => {
             selectedElement.style.backgroundColor = "lightpink";
 
             if(!document.getElementById("selectRectangle")) {
-                let selectRectangle = getSelectRectangle();
+                selectRectangle = getSelectRectangle();
                 selectRectangle.setAttribute("id", "selectRectangle");
                 document.getElementById("workArea").appendChild(selectRectangle);
             }
-            let selectRectangle = document.getElementById("selectRectangle");
+            selectRectangle = document.getElementById("selectRectangle");
             selectRectangle.setAttribute("width", e.target.offsetWidth + "px");
             selectRectangle.setAttribute("height", e.target.offsetHeight + "px");
             selectRectangle.style.top = e.target.offsetTop + "px";
@@ -82,7 +92,6 @@ export const loadEventListeners = () => {
                 });
                 config.selection.length = 0;
             }
-        })
-        if(config.selection.length == 0) document.removeEventListener("keydown", (e) => {});
+        });
     })
 }

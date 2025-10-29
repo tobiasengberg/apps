@@ -17,15 +17,21 @@ export const tableCommands = {
 const alterTableSize = (isRow, comparison, change) => {
     if(config.selection.length === 1) {
         isRow ? config.dimensions.rows = config.dimensions.rows + change : config.dimensions.columns = config.dimensions.columns + change;
-        let newContent = {};
-        for(let key in config.content) {
-            let [row, column] = key.split("-");
-            if(comparison(parseInt(isRow ? row : column), config.selection[0].split("-")[isRow ? 0 : 1])) {
-                newContent[`${isRow ? parseInt(row) + change : row}-${isRow ? column : parseInt(column) + change}`] = config.content[`${row}-${column}`];
+        let newContent = [];
+        config.content.map((item) => {
+            if(comparison(isRow ? item.row : item.column, parseInt(config.selection[0].split("-")[isRow ? 0 : 1]))) {
+                newContent.push({
+                    value: item.value,
+                    id: `${isRow ? item.row + change : item.row}-${isRow ? item.column : item.column + change}`,
+                    column: isRow ? item.column : item.column + change,
+                    row: isRow ? item.row + change : item.row,
+                    style: item.style,
+
+                });
             } else {
-                newContent[key] = config.content[key];
+                newContent.push(item);
             }
-        }
-        config.content = {...newContent};
+        })
+        config.content = [...newContent];
     }
 }

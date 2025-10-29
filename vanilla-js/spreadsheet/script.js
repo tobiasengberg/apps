@@ -5,14 +5,13 @@ import {updateSheet} from "./modules/setup/setup.js";
 window.addEventListener("load", () => {
     let contentHistory = localStorage.getItem("content");
     if(contentHistory) {
-        config.content = JSON.parse(contentHistory);
+       config.content = JSON.parse(contentHistory);
     }
     let dimensionsHistory = localStorage.getItem("dimensions");
     if(dimensionsHistory) {
         config.dimensions = JSON.parse(dimensionsHistory);
     }
     updateSheet();
-    loadEventListeners();
 });
 
 

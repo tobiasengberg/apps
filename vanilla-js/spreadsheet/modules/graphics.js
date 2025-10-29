@@ -18,7 +18,7 @@ export const getSelectRectangle = () => {
     circle2.style.cursor = "nwse-resize";
     // mouseMoveWhilstDown(circle2);
     rectangle.setAttribute("preserveAspectRatio", "none");
-    rectangle.setAttribute("fill-opacity", "0");
+    rectangle.setAttribute("fill", "transparent");
     rectangle.setAttribute("width", "100%");
     rectangle.setAttribute("height", "100%");
     rectangle.setAttribute("stroke", "red");

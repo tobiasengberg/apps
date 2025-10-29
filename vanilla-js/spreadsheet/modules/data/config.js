@@ -4,7 +4,12 @@ export const config = {
         columns: 10,
     },
     selection: [],
-    content: {
-        "5-6": 681
-    }
+    content: [{
+        value: 681,
+        id: "5-6",
+        column: 6,
+        row: 5,
+        style: []
+        }
+    ]
 }
