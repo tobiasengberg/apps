@@ -1,4 +1,4 @@
-import { config } from "../script.js";
+import {config} from "./data/config.js";
 
 export const getSelectRectangle = () => {
     let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");

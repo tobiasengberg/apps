@@ -1,4 +1,4 @@
-import { config } from "../../script.js";
+import {config} from "../data/config.js";
 
 export const tableCommands = {
     addRow: () => config.dimensions.rows++,
@@ -26,6 +26,6 @@ const alterTableSize = (isRow, comparison, change) => {
                 newContent[key] = config.content[key];
             }
         }
-        content = {...newContent};
+        config.content = {...newContent};
     }
 }

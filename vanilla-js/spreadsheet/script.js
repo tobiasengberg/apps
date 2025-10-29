@@ -1,24 +1,19 @@
 import {getSelectRectangle} from "./modules/graphics.js";
 import {parseExpression} from "./modules/expression-parsing.js";
-import {setUpColumns, setUpFullArea, setUpRows} from "./modules/setUp.js";
+import {setupColumnsBar, setupFullArea, setupRowsBar, setupWorkArea} from "./modules/setup/table-setup.js";
 import { messages } from "./modules/messages.js";
+import { tableCommands } from "./modules/commands/table-commands.js";
+import {setupContent} from "./modules/setup/content-setup.js";
+import {config} from "./modules/data/config.js";
 
-export const config = {
-    dimensions: {
-        rows: 10,
-        columns: 10,
-    },
-    selection: [],
-    content: {
-        "5-6": 681
-    }
-}
 
 const updateSheet = () => {
-  setUpFullArea(config.dimensions);
-  setUpColumns(config.dimensions);
-  setUpRows(config.dimensions);
-  setUpWorkArea();
+  setupFullArea(config.dimensions);
+  setupColumnsBar(config.dimensions);
+  setupRowsBar(config.dimensions);
+  setupWorkArea();
+  setupContent();
+  setInMotion()
 }
 
 
@@ -40,36 +35,9 @@ const doesColumnContain = () => {
     return { message: 411 };
 }
 
-const setUpWorkArea = () => {
+const setInMotion = () => {
   localStorage.setItem("content", JSON.stringify(config.content));
   localStorage.setItem("dimensions", JSON.stringify(config.dimensions));
-  if (document.getElementById("workArea")) {
-    document.getElementById("workArea").remove();
-  }
-  let targetArea = document.getElementById("setup");
-  let toAdd = document.createElement("div");
-  toAdd.setAttribute("id", "workArea");
-  toAdd.style.width = `${100 * config.dimensions.columns}px`;
-  toAdd.style.height = `${30 * config.dimensions.rows}px`;
-  for(let i = 0; i < config.dimensions.rows; i++) {
-    let toAddRow = document.createElement("div");
-    toAddRow.setAttribute("class", "sheet-row");
-    toAddRow.style.width = `${100 * config.dimensions.columns}px`;
-    for(let j = 0; j < config.dimensions.columns; j++) {
-      let toAddColumn = document.createElement("div");
-      toAddColumn.setAttribute("class", "sheet-column");
-      toAddColumn.setAttribute("id", `${i + 1}-${j + 1}`);
-      toAddRow.appendChild(toAddColumn);
-    }
-    toAdd.appendChild(toAddRow);
-  }
-  targetArea.appendChild(toAdd);
-  for(let key in config.content) {
-    let newContent = parseExpression(config.content[key]);
-    let newTarget = document.getElementById(`${key}`);
-    newTarget.innerText = newContent[0];
-    newTarget.classList.add(newContent[1]);
-  }
 
   document.getElementById("workArea").addEventListener("dblclick", (e) => {
       console.log(e);
@@ -90,8 +58,6 @@ const setUpWorkArea = () => {
       }
     })
   });
-
-
 
     document.getElementById("workArea").addEventListener("mousedown", (e) => {
         console.log(e);
