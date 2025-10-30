@@ -1,4 +1,4 @@
-import {tableCommands} from "../commands/table-commands.js";
+import {tableCommands} from "../commands/table-commands/table-commands.js";
 import {config} from "../data/config.js";
 import {updateContent, updateSheet} from "../setup/setup.js";
 import {getSelectRectangle} from "../graphics.js";

@@ -1,4 +1,4 @@
-import {tableCommands} from "../commands/table-commands.js";
+import {tableCommands} from "../commands/table-commands/table-commands.js";
 import {updateSheet} from "../setup/setup.js";
 
 export const loadMenuEventListeners = () => {

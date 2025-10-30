@@ -2,6 +2,7 @@ import {config} from "./modules/data/config.js";
 import {loadEventListeners} from "./modules/eventlisteners/eventlisteners.js";
 import {updateSheet} from "./modules/setup/setup.js";
 import {loadMenuEventListeners} from "./modules/eventlisteners/menu-eventlisteners.js";
+import {loadMenu} from "./modules/setup/menu-setup.js";
 
 window.addEventListener("load", () => {
     let contentHistory = localStorage.getItem("content");
@@ -13,6 +14,7 @@ window.addEventListener("load", () => {
         config.dimensions = JSON.parse(dimensionsHistory);
     }
     updateSheet();
+    loadMenu();
     loadMenuEventListeners();
 });
 
