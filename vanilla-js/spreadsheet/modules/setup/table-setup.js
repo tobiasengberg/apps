@@ -51,19 +51,18 @@ export const setupWorkArea = () => {
     let targetArea = document.getElementById("setup");
     let toAdd = document.createElement("div");
     toAdd.setAttribute("id", "workArea");
+    toAdd.style.gridTemplateColumns = `repeat(${config.dimensions.columns}, 100px)`;
     toAdd.style.width = `${100 * config.dimensions.columns}px`;
     toAdd.style.height = `${30 * config.dimensions.rows}px`;
     for(let i = 0; i < config.dimensions.rows; i++) {
-        let toAddRow = document.createElement("div");
-        toAddRow.setAttribute("class", "sheet-row");
-        toAddRow.style.width = `${100 * config.dimensions.columns}px`;
+
         for(let j = 0; j < config.dimensions.columns; j++) {
             let toAddColumn = document.createElement("div");
             toAddColumn.setAttribute("class", "sheet-column");
             toAddColumn.setAttribute("id", `${i + 1}-${j + 1}`);
-            toAddRow.appendChild(toAddColumn);
+            toAddColumn.style.width = "100px";
+            toAdd.appendChild(toAddColumn);
         }
-        toAdd.appendChild(toAddRow);
     }
     targetArea.appendChild(toAdd);
 }

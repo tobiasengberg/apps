@@ -13,4 +13,5 @@ export const formatMenu = () => {
 const formatButtons = [
     [ "changeTextColor", "Change text color" ],
     [ "changeFillColor", "Change fill color" ],
+    ["toggleBoldText", "Bold" ],
 ]
