@@ -15,6 +15,7 @@ export const tableCommands = {
 
 // parameter "comparison" is a function with two parameters and an operator of either ">" or ">="
 const alterTableSize = (isRow, comparison, change) => {
+    console.log(change);
     if(config.selection.length === 1) {
         isRow ? config.dimensions.rows = config.dimensions.rows + change : config.dimensions.columns = config.dimensions.columns + change;
         let newContent = [];

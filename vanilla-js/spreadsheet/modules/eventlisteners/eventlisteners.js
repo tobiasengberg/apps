@@ -4,12 +4,6 @@ import {updateContent, updateSheet} from "../setup/setup.js";
 import {getSelectRectangle} from "../graphics.js";
 
 export const loadEventListeners = () => {
-    document.getElementById("menu").addEventListener("click", (e) => {
-        let outcome = tableCommands[e.target.id]();
-        // let canRemove = doesRowContain();
-        // console.log(messages[canRemove.message]);
-        updateSheet();
-    });
 
     document.getElementById("workArea").addEventListener("dblclick", (e) => {
         console.log(e);
