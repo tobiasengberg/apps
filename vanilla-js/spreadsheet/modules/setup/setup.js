@@ -6,16 +6,15 @@ import {loadEventListeners} from "../eventlisteners/eventlisteners.js";
 export const updateSheet = () => {
     localStorage.setItem("content", JSON.stringify(config.content));
     localStorage.setItem("dimensions", JSON.stringify(config.dimensions));
-    console.log(config.content);
     setupTable();
     mergeCells();
     setupContent();
     loadEventListeners();
+    console.log(config.selection);
 }
 
 export const updateContent = () => {
     localStorage.setItem("content", JSON.stringify(config.content));
     localStorage.setItem("dimensions", JSON.stringify(config.dimensions));
-    console.log(config.content);
     setupContent();
 }

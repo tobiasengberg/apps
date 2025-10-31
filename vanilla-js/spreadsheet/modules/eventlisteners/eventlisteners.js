@@ -36,14 +36,12 @@ export const loadEventListeners = () => {
     });
 
     document.getElementById("workArea").addEventListener("mousedown", (e) => {
-        console.log(e);
         if (e.target.nodeName === "circle") {
             console.log("circle");
         }
     });
 
     document.getElementById("workArea").addEventListener("click", (e) => {
-        console.log(e.target.id);
         let selectedElement = document.getElementById(e.target.id);
         let selectRectangle;
         if(!selectedElement) return;
