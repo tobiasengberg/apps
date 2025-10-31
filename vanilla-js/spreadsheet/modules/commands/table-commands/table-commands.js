@@ -10,7 +10,9 @@ export const tableCommands = {
     removeRowAbove: () => alterTableSize(true, (a, b) => a >= b, -1),
     removeRowBelow: () => alterTableSize(true, (a, b) => a > b, -1),
     removeColumnLeft: () => alterTableSize(false, (a, b) => a >= b, -1),
-    removeColumnRight: () => alterTableSize(false, (a, b) => a > b, -1)
+    removeColumnRight: () => alterTableSize(false, (a, b) => a > b, -1),
+    mergeCells: () => mergeCells(),
+    unmergeCells: () => unmergeCells(),
 }
 
 // parameter "comparison" is a function with two parameters and an operator of either ">" or ">="
@@ -35,4 +37,18 @@ const alterTableSize = (isRow, comparison, change) => {
         })
         config.content = [...newContent];
     }
+}
+
+const mergeCells = () => {
+    config.mergeData.push(
+        {
+            origin: "8-2",
+            spans: [2, 2],
+            suppress: ["9-2", "9-3", "8-3"]
+        }
+    )
+}
+
+const unmergeCells = () => {
+    config.mergeData = config.mergeData.filter((item) => item.origin !== "8-2");
 }

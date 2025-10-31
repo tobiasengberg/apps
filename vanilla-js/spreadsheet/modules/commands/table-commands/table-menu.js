@@ -20,5 +20,7 @@ const tableButtons = [
     [ "removeRowAbove", "Remove row above" ],
     [ "removeRowBelow", "Remove row below" ],
     [ "removeColumnLeft", "Remove column left" ],
-    [ "removeColumnRight", "Remove column right" ]
+    [ "removeColumnRight", "Remove column right" ],
+    [ "mergeCells", "Merge cells" ],
+    [ "unmergeCells", "Unmerge cells" ],
 ]
