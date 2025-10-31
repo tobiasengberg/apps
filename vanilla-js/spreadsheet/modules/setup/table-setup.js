@@ -76,15 +76,18 @@ const doesColumnContain = () => {
 }
 
 export const mergeCells = () => {
-    let cellOrigin = document.getElementById("2-4");
-    cellOrigin.style.gridRow = "span 2";
-    cellOrigin.style.gridColumn = "span 2";
-    cellOrigin.style.backgroundColor = "lightgreen"
-    cellOrigin.style.width = "200px";
-    cellOrigin.style.height = "60px";
-    document.getElementById("2-5").remove();
-    document.getElementById("3-4").remove();
-    document.getElementById("3-5").remove();
+    config.mergeData.forEach((item) => {
+        let cellOrigin = document.getElementById(item.origin);
+        cellOrigin.style.gridRow = "span " + item.spans[0];
+        cellOrigin.style.gridColumn = "span " + item.spans[1];
+        cellOrigin.style.backgroundColor = "lightgreen"
+        cellOrigin.style.width = 100 * item.spans[1] + "px";
+        cellOrigin.style.height = 30 * item.spans[0] + "px";
+        item.suppress.forEach((cell) => {
+            document.getElementById(cell).remove();
+        })
+    })
+
 
 
 }

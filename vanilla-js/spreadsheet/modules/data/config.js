@@ -11,5 +11,17 @@ export const config = {
         row: 5,
         style: []
         }
+    ],
+    mergeData: [
+        {
+            origin: "2-4",
+            spans: [2, 2],
+            suppress: ["2-5", "3-4", "3-5"]
+        },
+        {
+            origin: "8-2",
+            spans: [2, 2],
+            suppress: ["9-2", "9-3", "8-3"]
+        }
     ]
 }
