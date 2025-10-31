@@ -14,7 +14,7 @@ window.addEventListener("load", () => {
         config.dimensions = JSON.parse(dimensionsHistory);
     }
     updateSheet();
-    loadMenu(1);
+    loadMenu();
     loadMenuEventListeners();
 });
 

@@ -13,10 +13,7 @@ export const config = {
         }
     ],
     mergeData: [
-        {
-            origin: "2-4",
-            spans: [2, 2],
-            suppress: ["2-5", "3-4", "3-5"]
-        }
-    ]
+    ],
+    tabChoice: 1,
+    
 }
