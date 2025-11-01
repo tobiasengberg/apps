@@ -2,8 +2,12 @@ import {config} from "../data/config.js";
 
 
 export const applyStyling = () => {
-    config.styling.forEach((item) => {
-        let target = document.getElementById("8-7");
-        target.style[item["8-7"][0][0]] = item["8-7"][0][1];
+    let styledEntries = Object.keys(config.styling);
+    styledEntries.forEach((item) => {
+        let target = document.getElementById(item);
+        let customStyles = config.styling[item];
+        customStyles.forEach((style) => {
+            target.style[style[0]] = style[1];
+        })
     })
 }

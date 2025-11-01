@@ -6,7 +6,6 @@ import {getSelectRectangle} from "../graphics.js";
 export const loadEventListeners = () => {
 
     document.getElementById("workArea").addEventListener("dblclick", (e) => {
-        console.log(e);
         let target = document.getElementById(e.target.id);
         if(!target) return;
         let newKey = e.target.id;

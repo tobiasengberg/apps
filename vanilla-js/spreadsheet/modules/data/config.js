@@ -15,8 +15,7 @@ export const config = {
     mergeData: [
     ],
     tabChoice: 1,
-    styling: [
-        {
+    styling: {
             "8-7": [["color", "purple"]],
         }
-    ]}
+    }
