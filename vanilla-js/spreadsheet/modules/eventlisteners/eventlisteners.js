@@ -5,6 +5,16 @@ import {getSelectRectangle} from "../graphics.js";
 
 export const loadEventListeners = () => {
 
+    document.addEventListener("keydown", (e) => {
+        console.log(e.key);
+        if(e.key === "Escape" && config.selection.length > 0) {
+            config.selection.forEach((element) => {
+                document.getElementById(element).classList.remove("selected");
+            });
+            config.selection.length = 0;
+        }
+    });
+
     document.getElementById("workArea").addEventListener("dblclick", (e) => {
         let target = document.getElementById(e.target.id);
         if(!target) return;
@@ -76,15 +86,5 @@ export const loadEventListeners = () => {
             selectRectangle.style.top = e.target.offsetTop + "px";
             selectRectangle.style.left = e.target.offsetLeft + "px";
         }
-
-        document.addEventListener("keydown", (e) => {
-            console.log(e.key);
-            if(e.key === "Escape" && config.selection.length > 0) {
-                config.selection.forEach((element) => {
-                    document.getElementById(element).style.backgroundColor = "lightblue";
-                });
-                config.selection.length = 0;
-            }
-        });
     })
 }
