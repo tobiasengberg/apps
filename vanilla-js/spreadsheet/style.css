@@ -112,3 +112,7 @@ body {
     overflow: visible;
     z-index: 9;
 }
+
+.selected {
+    background-color: lightpink;
+}

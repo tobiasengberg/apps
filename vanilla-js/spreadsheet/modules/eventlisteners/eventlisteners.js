@@ -42,26 +42,28 @@ export const loadEventListeners = () => {
 
     document.getElementById("workArea").addEventListener("click", (e) => {
         let selectedElement = document.getElementById(e.target.id);
+
+
         let selectRectangle;
         if(!selectedElement) return;
         if(e.getModifierState("Meta")){
             if(config.selection.includes(e.target.id)) {
                 config.selection.splice(config.selection.indexOf(e.target.id), 1);
-                selectedElement.style.backgroundColor = "lightblue";
+                selectedElement.classList.remove("selected");
                 return;
             }
             config.selection.push(e.target.id);
-            selectedElement.style.backgroundColor = "lightpink";
+            selectedElement.classList.add("selected");
             if(document.getElementById("selectRectangle")) {
                 document.getElementById("selectRectangle").remove();
             }
         } else {
             config.selection.forEach((element) => {
-                document.getElementById(element).style.backgroundColor = "lightblue";
+                document.getElementById(element).classList.remove("selected");
             });
             config.selection.length = 0;
             config.selection.push(e.target.id);
-            selectedElement.style.backgroundColor = "lightpink";
+            selectedElement.classList.add("selected");
 
             if(!document.getElementById("selectRectangle")) {
                 selectRectangle = getSelectRectangle();
