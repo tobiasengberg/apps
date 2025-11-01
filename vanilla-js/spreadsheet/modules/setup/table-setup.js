@@ -25,6 +25,7 @@ export const setupColumnsBar = () => {
     toAdd.style.gridTemplateColumns = `repeat(${config.dimensions.columns}, 100px)`;
     for(let i = 0; i < config.dimensions.columns; i++) {
         let toAddColumn = document.createElement("div");
+        toAddColumn.setAttribute("id", "column-" + ( i + 1));
         toAddColumn.innerText = String.fromCharCode(65 + i);
         toAdd.appendChild(toAddColumn);
     }
@@ -38,6 +39,7 @@ export const setupRowsBar = () => {
     toAdd.style.gridTemplateRows = `repeat(${config.dimensions.rows}, 30px)`;
     for(let i = 0; i < config.dimensions.rows; i++) {
         let toAddRow = document.createElement("div");
+        toAddRow.setAttribute("id", "row-" + ( i + 1));
         toAddRow.innerText = i + 1 + "";
         toAdd.appendChild(toAddRow);
     }
