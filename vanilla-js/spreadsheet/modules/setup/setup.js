@@ -7,6 +7,8 @@ import {applyStyling} from "../styling/apply-styling.js";
 export const updateSheet = () => {
     localStorage.setItem("content", JSON.stringify(config.content));
     localStorage.setItem("dimensions", JSON.stringify(config.dimensions));
+    localStorage.setItem("mergeData", JSON.stringify(config.mergeData));
+    localStorage.setItem("styling", JSON.stringify(config.styling));
     setupTable();
     mergeCells();
     applyStyling();
@@ -18,5 +20,7 @@ export const updateSheet = () => {
 export const updateContent = () => {
     localStorage.setItem("content", JSON.stringify(config.content));
     localStorage.setItem("dimensions", JSON.stringify(config.dimensions));
+    localStorage.setItem("mergeData", JSON.stringify(config.mergeData));
+    localStorage.setItem("styling", JSON.stringify(config.styling));
     setupContent();
 }

@@ -10,13 +10,16 @@ export const formatCommands = {
     justifyLeft: () => alterStyling("text-align", "left"),
     justifyCenter: () => alterStyling("text-align", "center"),
     justifyRight: () => alterStyling("text-align", "right"),
-    clearFormatting: () => delete config.styling[config.selection[0]],
+    clearFormatting: () => config.selection.forEach(sel => delete config.styling[sel]),
 }
 
 const alterStyling = (kind, value) => {
-    if(config.styling.hasOwnProperty(config.selection[0])) {
-        config.styling[config.selection[0]].push([kind, value]);
-    } else {
-        config.styling[config.selection[0]] = [[kind, value]];
-    }
+    config.selection.forEach(sel => {
+        if(config.styling.hasOwnProperty(sel)) {
+            config.styling[sel].push([kind, value]);
+        } else {
+            config.styling[sel] = [[kind, value]];
+        }
+    });
+
 }
