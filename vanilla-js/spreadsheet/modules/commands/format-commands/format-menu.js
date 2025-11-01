@@ -14,4 +14,11 @@ const formatButtons = [
     [ "changeTextColor", "Change text color" ],
     [ "changeFillColor", "Change fill color" ],
     ["toggleBoldText", "Bold" ],
+    ["changeFontSize", "Change font size" ],
+    ["addBorderAbove", "Add border above" ],
+    ["addBorderBelow", "Add border below" ],
+    ["clearFormatting", "Clear formatting" ],
+    ["justifyLeft", "Justify left" ],
+    ["justifyCenter", "Justify center" ],
+    ["justifyRight", "Justify right" ],
 ]
