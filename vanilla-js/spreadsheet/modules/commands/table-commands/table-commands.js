@@ -47,7 +47,16 @@ const mergeCells = () => {
     let highestRow = Math.max(...selection.map((item) => parseInt(item.split("-")[0])));
     let origin = `${lowestRow}-${lowestColumn}`;
     let suppress = [...selection.filter((item) => item !== origin)];
-    suppress.forEach((item) => delete config.styling[item]);
+
+    // Delete styling and content from suppressed cells
+    suppress.forEach((item) => {
+        delete config.styling[item];
+        config.content = config.content.filter((entry) => suppress.indexOf(entry.id) < 0);
+    });
+    selection.forEach((item) => {
+        let target = document.getElementById(item);
+        target.classList.remove("selected");
+    })
     config.mergeData.push(
         {
             origin: origin,

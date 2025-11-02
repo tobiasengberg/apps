@@ -10,8 +10,9 @@ export const loadConfigData = () => {
         config.dimensions = JSON.parse(dimensionsHistory);
     }
     let mergeDataHistory = localStorage.getItem("mergeData");
-    if(dimensionsHistory) {
-        config.mergeData = JSON.parse(mergeDataHistory);
+    if(mergeDataHistory) {
+        //config.mergeData = JSON.parse(mergeDataHistory);
+        config.mergeData = [];
     }
     let stylingHistory = localStorage.getItem("styling");
     if(stylingHistory) {

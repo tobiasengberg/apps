@@ -4,7 +4,8 @@ export const formatCommands = {
     changeTextColor: () => alterStyling("color", "purple"),
     changeFillColor: () => alterStyling("backgroundColor", document.getElementById("color-picker").value),
     toggleBoldText: () => alterStyling("font-weight", "700"),
-    changeFontSize: () => alterStyling("font-size", "20px"),
+    increaseFontSize: () => alterStyling("font-size", "20px"),
+    decreaseFontSize: () => alterStyling("font-size", "10px"),
     addBorderAbove: () => alterStyling("border-top", "1px solid black"),
     addBorderBelow: () => alterStyling("border-bottom", "1px solid black"),
     justifyLeft: () => alterStyling("text-align", "left"),
@@ -21,5 +22,4 @@ const alterStyling = (kind, value) => {
             config.styling[sel] = [[kind, value]];
         }
     });
-
 }

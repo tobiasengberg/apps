@@ -82,7 +82,6 @@ export const mergeCells = () => {
         let cellOrigin = document.getElementById(item.origin);
         cellOrigin.style.gridRow = "span " + item.spans[0];
         cellOrigin.style.gridColumn = "span " + item.spans[1];
-        cellOrigin.style.backgroundColor = "lightgreen"
         cellOrigin.style.width = 100 * item.spans[1] + "px";
         cellOrigin.style.height = 30 * item.spans[0] + "px";
         item.suppress.forEach((cell) => {
