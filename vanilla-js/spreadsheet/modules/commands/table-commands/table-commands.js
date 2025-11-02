@@ -51,8 +51,11 @@ const mergeCells = () => {
     // Delete styling and content from suppressed cells
     suppress.forEach((item) => {
         delete config.styling[item];
-        config.content = config.content.filter((entry) => suppress.indexOf(entry.id) < 0);
+        let remove = config.content.filter((entry) => entry.id === item);
+        let target = config.content.findIndex((entry) => entry.id === origin);
+        if(remove) config.content[target].value += ", " + remove[0].value;
     });
+    config.content = config.content.filter((entry) => suppress.indexOf(entry.id) < 0);
     selection.forEach((item) => {
         let target = document.getElementById(item);
         target.classList.remove("selected");
