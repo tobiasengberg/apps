@@ -5,5 +5,5 @@ import {config} from "../data/config.js";
 export const loadMenu = () => {
     let menu = document.getElementById("menu");
     menu.innerText = "";
-    config.tabChoice === 1 ? menu.appendChild(tableMenu()) : menu.appendChild(formatMenu());
+    config.tabChoice === "table-menu" ? menu.appendChild(tableMenu()) : menu.appendChild(formatMenu());
 }

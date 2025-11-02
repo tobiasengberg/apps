@@ -6,14 +6,15 @@ import {formatCommands} from "../commands/format-commands/format-commands.js";
 
 export const loadMenuEventListeners = () => {
     document.getElementById("menu").addEventListener("click", (e) => {
-        let outcome = config.tabChoice === 1 ? tableCommands[e.target.id]() : formatCommands[e.target.id]();
+        console.log(e.target.id);
+        if(e.target.id === config.tabChoice) return;
+        let outcome = config.tabChoice === "table-menu" ? tableCommands[e.target.id]() : formatCommands[e.target.id]();
         // let canRemove = doesRowContain();
         // console.log(messages[canRemove.message]);
         updateSheet();
-        console.log(JSON.parse(localStorage.getItem("styling")));
     });
     document.getElementById("menu-tabs").addEventListener("click", (e) => {
-        e.target.id === "menu-tab-table" ? config.tabChoice = 1 : config.tabChoice = 2 ;
+        e.target.id === "menu-tab-table" ? config.tabChoice = "table-menu" : config.tabChoice = "format-menu" ;
         loadMenu();
     })
 };

@@ -39,7 +39,7 @@ const alterTableSize = (isRow, comparison, change) => {
         let styledEntries = Object.keys(config.styling);
         styledEntries.map((item) => {
             let [row, column] = item.split("-");
-            if(comparison(isRow ? row : column, parseInt(config.selection[0].split("-")[isRow ? 0 : 1]))) {
+            if(comparison(isRow ? parseInt(row) : parseInt(column), parseInt(config.selection[0].split("-")[isRow ? 0 : 1]))) {
 
                 newStyling[`${isRow ? parseInt(row) + change : row}-${isRow ? column : parseInt(column) + change}`] = config.styling[item];
             } else {
