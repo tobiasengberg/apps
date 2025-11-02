@@ -6,7 +6,11 @@ export const formatMenu = () => {
         newButton.setAttribute("id", button[0]);
         newButton.innerText = button[1];
         newElement.appendChild(newButton);
-    })
+    });
+    let inputElement = document.createElement("input");
+    inputElement.setAttribute("type", "color");
+    inputElement.setAttribute("id", "color-picker");
+    newElement.appendChild(inputElement);
     return newElement;
 }
 
