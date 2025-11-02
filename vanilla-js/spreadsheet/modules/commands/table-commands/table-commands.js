@@ -17,7 +17,6 @@ export const tableCommands = {
 
 // parameter "comparison" is a function with two parameters and an operator of either ">" or ">="
 const alterTableSize = (isRow, comparison, change) => {
-    console.log(change);
     if(config.selection.length === 1) {
         isRow ? config.dimensions.rows = config.dimensions.rows + change : config.dimensions.columns = config.dimensions.columns + change;
         let newContent = [];
@@ -36,6 +35,19 @@ const alterTableSize = (isRow, comparison, change) => {
             }
         })
         config.content = [...newContent];
+        let newStyling = {};
+        let styledEntries = Object.keys(config.styling);
+        styledEntries.map((item) => {
+            let [row, column] = item.split("-");
+            if(comparison(isRow ? row : column, parseInt(config.selection[0].split("-")[isRow ? 0 : 1]))) {
+
+                newStyling[`${isRow ? parseInt(row) + change : row}-${isRow ? column : parseInt(column) + change}`] = config.styling[item];
+            } else {
+                newStyling[item] = config.styling[item];
+            }
+        })
+        config.styling = {...newStyling};
+        console.log(config.styling);
     }
 }
 

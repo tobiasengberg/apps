@@ -10,6 +10,7 @@ export const loadMenuEventListeners = () => {
         // let canRemove = doesRowContain();
         // console.log(messages[canRemove.message]);
         updateSheet();
+        console.log(JSON.parse(localStorage.getItem("styling")));
     });
     document.getElementById("menu-tabs").addEventListener("click", (e) => {
         e.target.id === "menu-tab-table" ? config.tabChoice = 1 : config.tabChoice = 2 ;

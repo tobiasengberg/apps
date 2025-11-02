@@ -5,16 +5,17 @@ import {loadEventListeners} from "../eventlisteners/eventlisteners.js";
 import {applyStyling} from "../styling/apply-styling.js";
 
 export const updateSheet = () => {
+    console.log("Before: " + config.styling);
     localStorage.setItem("content", JSON.stringify(config.content));
     localStorage.setItem("dimensions", JSON.stringify(config.dimensions));
     localStorage.setItem("mergeData", JSON.stringify(config.mergeData));
     localStorage.setItem("styling", JSON.stringify(config.styling));
+    console.log("After: " + config.styling);
     setupTable();
     mergeCells();
     applyStyling();
     setupContent();
     loadEventListeners();
-    console.log(config.selection);
 }
 
 export const updateContent = () => {
