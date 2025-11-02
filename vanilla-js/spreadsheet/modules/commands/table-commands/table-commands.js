@@ -46,12 +46,13 @@ const mergeCells = () => {
     let lowestRow = Math.min(...selection.map((item) => parseInt(item.split("-")[0])));
     let highestRow = Math.max(...selection.map((item) => parseInt(item.split("-")[0])));
     let origin = `${lowestRow}-${lowestColumn}`;
-
+    let suppress = [...selection.filter((item) => item !== origin)];
+    suppress.forEach((item) => delete config.styling[item]);
     config.mergeData.push(
         {
             origin: origin,
             spans: [highestRow - lowestRow + 1, highestColumn - lowestColumn + 1],
-            suppress: [...selection.filter((item) => item !== origin)]
+            suppress: suppress,
         }
     )
     config.selection.length = 0;
