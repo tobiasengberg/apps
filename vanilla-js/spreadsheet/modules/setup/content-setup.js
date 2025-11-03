@@ -1,4 +1,4 @@
-import {parseExpression} from "../expression-parsing.js";
+import {parseExpression} from "../expression-parsing/expression-parsing.js";
 import {config} from "../data/config.js";
 
 export const setupContent = () => {
