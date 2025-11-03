@@ -46,7 +46,7 @@ export const loadEventListeners = () => {
         let target = document.getElementById(e.target.id);
         if(!target) return;
         let newKey = e.target.id;
-        target.innerHTML = `<input type="text" value=${target.innerText}>`;
+        target.innerHTML = `<input type="text" value=${config.content.filter(item => item.id === e.target.id)[0].value}>`;
         target.firstChild.focus();
         const getValue = (e) => {
             if(e.target.value === "") {
