@@ -5,31 +5,7 @@ import {getSelectRectangle} from "../graphics.js";
 
 export const loadEventListeners = () => {
 
-    document.getElementById("columns-bar").addEventListener("click", (e) => {
-        let column = e.target.id.split("column-")[1];
-        config.selection.forEach((element) => {
-            document.getElementById(element).classList.remove("selected");
-        })
-        config.selection.length = 0;
-        for(let i = 0; i < config.dimensions.rows; i++) {
-            let colId = `${i + 1}-${column}`;
-            config.selection.push(colId);
-            document.getElementById(colId).classList.add("selected");
-        }
-    });
 
-    document.getElementById("rows-bar").addEventListener("click", (e) => {
-        let row = e.target.id.split("row-")[1];
-        config.selection.forEach((element) => {
-            document.getElementById(element).classList.remove("selected");
-        })
-        config.selection.length = 0;
-        for(let i = 0; i < config.dimensions.columns; i++) {
-            let rowId = `${row}-${i + 1}`;
-            config.selection.push(rowId);
-            document.getElementById(rowId).classList.add("selected");
-        }
-    });
 
 
     document.addEventListener("keydown", (e) => {
@@ -47,29 +23,12 @@ export const loadEventListeners = () => {
         if(!target) return;
         let newKey = e.target.id;
         let isContent = config.content.filter(item => item.id === e.target.id);
-        target.innerHTML = `<input type="text" value=${isContent.length > 0 ? isContent[0].value : target.innerText}>`;
+        target.innerHTML = `<input id="cell-input" type="text" value=${isContent.length > 0 ? isContent[0].value : target.innerText}>`;
         target.firstChild.focus();
-        const getValue = (e) => {
-            if(e.target.value === "") {
-                config.content = [...config.content.filter((item) => item.id !== newKey)];
-                target.removeChild(target.firstChild);
-            } else {
-                let item = config.content.filter((item) => item.id === newKey);
-                if(item.length === 0) {
-                    config.content.push({
-                        value: e.target.value,
-                        id: newKey,
-                        column: parseInt(newKey.split("-")[1]),
-                        row: parseInt(newKey.split("-")[0]),
-                        style: []
-                    });
-                } else {
-                    item[0].value = e.target.value;
-                }
-                updateContent();
-            }
-        }
-        target.firstChild.addEventListener("blur", getValue);
+        target.firstChild.addEventListener("keydown", (e) => {
+            console.log(e.key === "=" && e.target.value.length === 0);
+        })
+        target.firstChild.addEventListener("blur", updateCellValue);
     });
 
     document.getElementById("workArea").addEventListener("mousedown", (e) => {
@@ -115,4 +74,25 @@ export const loadEventListeners = () => {
             selectRectangle.style.left = e.target.offsetLeft + "px";
         }
     })
+}
+
+const updateCellValue = (e) => {
+    if(e.target.value === "") {
+        config.content = [...config.content.filter((item) => item.id !== newKey)];
+        target.removeChild(target.firstChild);
+    } else {
+        let item = config.content.filter((item) => item.id === newKey);
+        if(item.length === 0) {
+            config.content.push({
+                value: e.target.value,
+                id: newKey,
+                column: parseInt(newKey.split("-")[1]),
+                row: parseInt(newKey.split("-")[0]),
+                style: []
+            });
+        } else {
+            item[0].value = e.target.value;
+        }
+        updateContent();
+    }
 }

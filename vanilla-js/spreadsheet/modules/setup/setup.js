@@ -3,6 +3,7 @@ import {mergeCells, setupTable} from "./table-setup.js";
 import {setupContent} from "./content-setup.js";
 import {loadEventListeners} from "../eventlisteners/eventlisteners.js";
 import {applyStyling} from "../styling/apply-styling.js";
+import {loadBarsListeners} from "../selecting/bars-selecting.js";
 
 export const updateSheet = () => {
     console.log("Before: " + config.styling);
@@ -16,6 +17,7 @@ export const updateSheet = () => {
     applyStyling();
     setupContent();
     loadEventListeners();
+    loadBarsListeners();
 }
 
 export const updateContent = () => {

@@ -9,7 +9,7 @@ export const config = {
         id: "5-6",
         column: 6,
         row: 5,
-        style: []
+        refs: []
         }
     ],
     mergeData: [
