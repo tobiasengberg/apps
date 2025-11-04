@@ -1,12 +1,7 @@
-import {tableCommands} from "../commands/table-commands/table-commands.js";
 import {config} from "../data/config.js";
-import {updateContent, updateSheet} from "../setup/setup.js";
 import {getSelectRectangle} from "../graphics.js";
 
-export const loadEventListeners = () => {
-
-
-
+export const loadSelectingListeners = () => {
 
     document.addEventListener("keydown", (e) => {
         console.log(e.key);
@@ -18,8 +13,6 @@ export const loadEventListeners = () => {
         }
     });
 
-
-
     document.getElementById("workArea").addEventListener("mousedown", (e) => {
         if (e.target.nodeName === "circle") {
             console.log("circle");
@@ -28,7 +21,6 @@ export const loadEventListeners = () => {
 
     document.getElementById("workArea").addEventListener("click", (e) => {
         let selectedElement = document.getElementById(e.target.id);
-
 
         let selectRectangle;
         if(!selectedElement) return;
@@ -63,5 +55,4 @@ export const loadEventListeners = () => {
             selectRectangle.style.left = e.target.offsetLeft + "px";
         }
     })
-}
-
+};

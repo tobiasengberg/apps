@@ -1,10 +1,10 @@
 import {config} from "../data/config.js";
 import {mergeCells, setupTable} from "./table-setup.js";
 import {setupContent} from "./content-setup.js";
-import {loadEventListeners} from "../eventlisteners/eventlisteners.js";
 import {applyStyling} from "../styling/apply-styling.js";
 import {loadBarsListeners} from "../selecting/bars-selecting.js";
 import {loadCellListeners} from "../cell-updating/cell-updating.js";
+import {loadSelectingListeners} from "../selecting/cells-selecting.js";
 
 export const updateSheet = () => {
     console.log("Before: " + config.styling);
@@ -17,9 +17,9 @@ export const updateSheet = () => {
     mergeCells();
     applyStyling();
     setupContent();
-    loadEventListeners();
     loadBarsListeners();
     loadCellListeners();
+    loadSelectingListeners();
 }
 
 export const updateContent = () => {
