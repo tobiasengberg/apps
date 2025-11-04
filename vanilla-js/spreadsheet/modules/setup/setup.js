@@ -4,6 +4,7 @@ import {setupContent} from "./content-setup.js";
 import {loadEventListeners} from "../eventlisteners/eventlisteners.js";
 import {applyStyling} from "../styling/apply-styling.js";
 import {loadBarsListeners} from "../selecting/bars-selecting.js";
+import {loadCellListeners} from "../cell-updating/cell-updating.js";
 
 export const updateSheet = () => {
     console.log("Before: " + config.styling);
@@ -18,6 +19,7 @@ export const updateSheet = () => {
     setupContent();
     loadEventListeners();
     loadBarsListeners();
+    loadCellListeners();
 }
 
 export const updateContent = () => {
