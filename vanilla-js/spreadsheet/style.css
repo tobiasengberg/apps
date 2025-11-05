@@ -25,7 +25,7 @@ body {
     margin: 10px;
     justify-content: flex-start;
     background-color: var(--menu-background-color);
-    padding: 10px;
+
 }
 
 #menu > div > * {
@@ -36,6 +36,9 @@ body {
     color: var(--menu-background-color);
 }
 
+#menu > * {
+    padding: 10px;
+}
 #menu > div > *:hover {
     background-color: var(--menu-background-color);
     color: var(--sheet-background-color);
