@@ -1,7 +1,9 @@
 
 
 window.addEventListener('load', () => {
+    document.getElementById("menu-tab-document").addEventListener("click", pageSetup);
     typing();
+
 });
 
 const typing = () => {
@@ -30,4 +32,10 @@ const typing = () => {
         }
 
     })
+}
+
+const pageSetup = () => {
+    let target = document.getElementById("workArea");
+    target.classList.add("page-setup-a4");
+
 }
