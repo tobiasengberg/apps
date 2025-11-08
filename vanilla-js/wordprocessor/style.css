@@ -1,5 +1,13 @@
+:root {
+    --primary-color: #57a1de;
+    --left-margin: 20px;
+}
+
 .page-setup-a4 {
     width: 21cm;
     height: 29.7cm;
     border: 1px solid #000;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding-left: var(--left-margin);
 }

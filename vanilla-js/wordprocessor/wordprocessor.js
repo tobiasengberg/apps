@@ -1,13 +1,18 @@
 
 
 window.addEventListener('load', () => {
-    document.getElementById("menu-tab-document").addEventListener("click", pageSetup);
+    document.querySelector("#menu-tab-document").addEventListener("click", pageSetup);
+    document.querySelector("#menu-tab-margin").addEventListener("click", () => {
+        const stylesheets = document.styleSheets[1].cssRules[0].style.getPropertyValue("--left-margin");
+        console.log(stylesheets);
+        document.styleSheets[1].cssRules[0].style.setProperty("--left-margin", parseInt(stylesheets.split('p')[0]) + 20 + "px");
+    });
     typing();
 
 });
 
 const typing = () => {
-    let target = document.getElementById("setup");
+    let target = document.querySelector("#setup");
     let workArea = document.createElement("div");
     workArea.setAttribute("id", "workArea");
     let text = document.createElement("span");
@@ -35,7 +40,11 @@ const typing = () => {
 }
 
 const pageSetup = () => {
-    let target = document.getElementById("workArea");
+    let target = document.querySelector("#workArea");
     target.classList.add("page-setup-a4");
+}
 
+const pageMargins = () => {
+    let target = document.querySelector("#workArea");
+    target.classList.add("page-setup-a4");
 }
