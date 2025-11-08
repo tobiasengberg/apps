@@ -7,6 +7,14 @@ window.addEventListener('load', () => {
         console.log(stylesheets);
         document.styleSheets[1].cssRules[0].style.setProperty("--left-margin", parseInt(stylesheets.split('p')[0]) + 20 + "px");
     });
+    document.querySelector("#menu-tab-indent").addEventListener("click", () => {
+        state.currentStyle = "normal-indent";
+        let current = document.querySelector(".workAreaCurrent");
+        if (current) {
+            current.classList.remove("normal");
+            current.classList.add("normal-indent");
+        }
+    });
     setUpWorkArea();
     typing();
 
@@ -17,10 +25,14 @@ const setUpWorkArea = () => {
     let workArea = document.createElement("div");
     workArea.setAttribute("id", "workArea");
     let text = document.createElement("p");
-    text.classList.add("workAreaCurrent");
+    text.classList.add("workAreaCurrent", state.currentStyle);
     text.innerHTML = "";
     workArea.appendChild(text);
     target.appendChild(workArea);
+}
+
+const state = {
+    currentStyle: "normal",
 }
 
 const typing = () => {
@@ -30,7 +42,7 @@ const typing = () => {
         switch (e.key) {
             case "Enter":
                 let text = document.createElement("p");
-                text.classList.add("workAreaCurrent");
+                text.classList.add("workAreaCurrent", state.currentStyle);
                 text.innerHTML = "";
                 current.classList.remove("workAreaCurrent");
                 current.parentElement.appendChild(text);

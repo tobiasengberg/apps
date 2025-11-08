@@ -3,6 +3,12 @@
     --left-margin: 20px;
 }
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 .page-setup-a4 {
     width: 21cm;
     height: 29.7cm;
@@ -10,4 +16,15 @@
     background-color: var(--primary-color);
     color: #fff;
     padding-left: var(--left-margin);
+}
+
+.normal {
+    line-height: 1.15em;
+    font-size: 20px;
+}
+
+.normal-indent {
+    line-height: 1.15em;
+    font-size: 20px;
+    text-indent: 1rem;
 }
