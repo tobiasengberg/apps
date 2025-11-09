@@ -28,3 +28,7 @@
     font-size: 20px;
     text-indent: 1rem;
 }
+
+.bold {
+    font-weight: bold;
+}

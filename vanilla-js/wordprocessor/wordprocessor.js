@@ -15,6 +15,18 @@ window.addEventListener('load', () => {
             current.classList.add("normal-indent");
         }
     });
+    document.querySelector("#menu-tab-bold").addEventListener("click", () => {
+        let selected = document.getSelection();
+        let range = selected.getRangeAt(0);
+        let words = range.toString();
+        console.log(range);
+        let enclosing = document.createElement("span");
+        enclosing.classList.add("bold");
+        enclosing.innerHTML = words;
+        let target = document.querySelector(".workAreaCurrent");
+        target.appendChild(enclosing);
+        //selected.insertAdjacentElement(range.collapse(), enclosing);
+    })
     setUpWorkArea();
     typing();
 
