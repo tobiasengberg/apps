@@ -4,13 +4,17 @@ import StatusEntry from "./components/StatusEntry.jsx";
 import {useState} from "react";
 import NavBar from "./components/NavBar.jsx";
 import UpdateStatus from "./components/UpdateStatus.jsx";
+import {useGetStatuses} from "./data/api.js";
 
 function App() {
 
-    const [status, setStatus] = useState([{
-        status: "We have started a business today",
-        time: "2025-12-04-12:00"
-    }]);
+    // const [status, setStatus] = useState([{
+    //     status: "We have started a business today",
+    //     time: "2025-12-04-12:00"
+    // }]);
+
+    const allStatuses = useGetStatuses();
+
     const [menuChoice, setMenuChoice] = useState(1);
 
   return (
@@ -18,10 +22,10 @@ function App() {
         <NavBar setMenuChoice={setMenuChoice} />
         <div className="m-auto container">
         {menuChoice === 1 ?
-        status.length > 0 && status.map( (entry) => (
+        allStatuses.data && allStatuses.data.map( (entry) => (
             <StatusEntry entry={entry} />
         )) :
-            <UpdateStatus setStatus={setStatus} status={status}/>
+            <UpdateStatus />
         }
         </div>
     </div>

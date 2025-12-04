@@ -1,13 +1,15 @@
 import React from 'react';
 import {useForm} from "react-hook-form";
+import {useAddStatus} from "../data/api.js";
 
-const UpdateStatus = ({status, setStatus}) => {
+const UpdateStatus = () => {
     const {register, handleSubmit} = useForm();
 
-    const onSubmit = (values) => {setStatus([...status, {
+    const addStatus = useAddStatus()
+    const onSubmit = (values) => addStatus.mutate({
         status: values.newStatus,
-        time: new Date().toDateString()
-    }]); };
+        time: new Date().toISOString()
+    })
     return (
         <div>
             <h1>Handle</h1>
