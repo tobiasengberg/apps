@@ -28,6 +28,10 @@ window.addEventListener('load', () => {
         //selected.insertAdjacentElement(range.collapse(), enclosing);
     })
     setUpWorkArea();
+    document.querySelector("#workArea").addEventListener("click", (e) => {
+        let range = document.caretPositionFromPoint(e.clientX, e.clientY);
+        console.log(range);
+    })
     typing();
 
 });
