@@ -1,9 +1,10 @@
 using cart_backend.models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace cart_backend.data;
 
-public class ProductDbContext : DbContext
+public class ProductDbContext : IdentityDbContext
 {
     public ProductDbContext(DbContextOptions<ProductDbContext> options) : base(options)
     {

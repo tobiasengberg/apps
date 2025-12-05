@@ -10,10 +10,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("cart-backend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+601e8a8d2a5aef5da9880588e9848309be2687dd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4011157fbdadbe6ed66e54e21ee98885206acaa4")]
 [assembly: System.Reflection.AssemblyProductAttribute("cart-backend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("cart-backend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
