@@ -19,9 +19,4 @@
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.0.1" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="data\" />
-      <Folder Include="models\" />
-    </ItemGroup>
-
 </Project>
