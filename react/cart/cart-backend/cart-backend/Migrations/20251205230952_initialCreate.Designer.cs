@@ -11,7 +11,7 @@ using cart_backend.data;
 namespace cart_backend.Migrations
 {
     [DbContext(typeof(ProductDbContext))]
-    [Migration("20251205135930_initialCreate")]
+    [Migration("20251205230952_initialCreate")]
     partial class initialCreate
     {
         /// <inheritdoc />
@@ -218,7 +218,13 @@ namespace cart_backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerId")
+                        .IsUnique();
 
                     b.ToTable("Carts");
                 });
@@ -227,9 +233,6 @@ namespace cart_backend.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CartId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Email")
@@ -244,9 +247,11 @@ namespace cart_backend.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-                    b.HasIndex("CartId");
+                    b.HasKey("Id");
 
                     b.ToTable("Customers");
                 });
@@ -302,7 +307,7 @@ namespace cart_backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("CartId")
+                    b.Property<int>("CartId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
@@ -375,15 +380,13 @@ namespace cart_backend.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("cart_backend.models.Customer", b =>
+            modelBuilder.Entity("cart_backend.models.Cart", b =>
                 {
-                    b.HasOne("cart_backend.models.Cart", "Cart")
-                        .WithMany()
-                        .HasForeignKey("CartId")
+                    b.HasOne("cart_backend.models.Customer", null)
+                        .WithOne("Cart")
+                        .HasForeignKey("cart_backend.models.Cart", "CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Cart");
                 });
 
             modelBuilder.Entity("cart_backend.models.Price", b =>
@@ -395,9 +398,11 @@ namespace cart_backend.Migrations
 
             modelBuilder.Entity("cart_backend.models.ProductQuantity", b =>
                 {
-                    b.HasOne("cart_backend.models.Cart", null)
+                    b.HasOne("cart_backend.models.Cart", "Cart")
                         .WithMany("Products")
-                        .HasForeignKey("CartId");
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("cart_backend.models.Product", "Product")
                         .WithMany()
@@ -405,12 +410,20 @@ namespace cart_backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Cart");
+
                     b.Navigation("Product");
                 });
 
             modelBuilder.Entity("cart_backend.models.Cart", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("cart_backend.models.Customer", b =>
+                {
+                    b.Navigation("Cart")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("cart_backend.models.Product", b =>

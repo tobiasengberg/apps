@@ -6,10 +6,7 @@ public class Customer
     public string Name { get; set; }
     public string Email { get; set; }
     public string Mobile { get; set; }
-
     public Cart Cart { get; set; }
-    public int CartId { get; set; }
-
     public string UserId { get; set; }
 
     public Customer()
@@ -17,12 +14,11 @@ public class Customer
         
     }
 
-    public Customer(string name, string email, string mobile, int cartId, string userId)
+    public Customer(string name, string email, string mobile, string userId)
     {
         Name = name;
         Email = email;
         Mobile = mobile;
-        CartId = cartId;
         UserId = userId;
     }
 }

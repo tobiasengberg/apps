@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("cart-backend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4011157fbdadbe6ed66e54e21ee98885206acaa4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9f4f40521bedacf20a1255f42b6aec868d1002ad")]
 [assembly: System.Reflection.AssemblyProductAttribute("cart-backend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("cart-backend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

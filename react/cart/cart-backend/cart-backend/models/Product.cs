@@ -10,8 +10,9 @@ public class Product
     public Product() { }
     
     
-    public Price GetCurrentPrice()
+    public decimal GetCurrentPrice()
     {
-        return PriceHistory.FirstOrDefault();
+        int id = PriceHistory.Count - 1;
+        return PriceHistory[id].Amount;
     }
 }

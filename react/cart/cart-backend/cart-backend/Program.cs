@@ -1,4 +1,6 @@
+using System.Text.Json.Serialization;
 using cart_backend.data;
+using cart_backend.dto;
 using cart_backend.models;
 using cart_backend.services;
 using Microsoft.AspNetCore.Identity;
@@ -6,8 +8,12 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
+{
+    options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
 builder.Services.AddOpenApi();
-builder.Services.AddSwaggerGen();
+
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddEntityFrameworkStores<ProductDbContext>();
 builder.Services.ConfigureApplicationCookie(options =>
@@ -16,6 +22,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<CustomerFactory>();
 builder.Services.AddDbContext<ProductDbContext>(options =>
@@ -37,7 +44,12 @@ app.UseAuthorization();
 app.MapGroup("/user").MapIdentityApi<IdentityUser>();
 app.MapGet("/api/products", (ProductDbContext db) =>
 {
-    return db.Products.ToListAsync();
+    List<Product> products = db.Products
+        .Include(p => p.PriceHistory)
+        .ToListAsync().Result;
+    List<ProductDto> dtos = new();
+    products.ForEach(p => dtos.Add(new ProductDto(p)));
+    return dtos;
 });
 app.MapGet("/api/cart", (HttpContext context, ProductDbContext db,  UserManager<IdentityUser> userManager) =>
 {
@@ -48,14 +60,10 @@ app.MapGet("/api/cart", (HttpContext context, ProductDbContext db,  UserManager<
         .FirstOrDefault(c => c.UserId == user.Id);
     return customer.Cart;
 }).RequireAuthorization();
-app.MapPost("/api/customer",
-    (Customer customer, CustomerFactory factory, HttpContext context, ProductDbContext db,
-        UserManager<IdentityUser> userManager) =>
+app.MapPost("/api/customer", (Customer customer, CustomerFactory factory) =>
     {
         Customer newCustomer = factory.CreateCustomer(customer.Name, customer.Email, customer.Mobile);
-        db.Customers.Add(newCustomer);
-        db.SaveChanges();
         return newCustomer;
-    });
+    }).RequireAuthorization();
 
 app.Run();
