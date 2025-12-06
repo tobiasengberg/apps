@@ -1,10 +1,12 @@
 import React from 'react';
 import ProductCard from "./ProductCard.js";
 
-interface DisplayProps {
-   products: {
-       id: number, name: string, description: string, price: number }[];
+interface DisplayProps { products : dwnProducts [] }
+
+export interface dwnProducts {
+    id: number, name: string, description: string, price: number
 }
+
 const Display : React.FC<DisplayProps> = ({products}) => {
     return (
         <div>
