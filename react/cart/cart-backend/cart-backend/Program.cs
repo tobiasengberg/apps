@@ -60,6 +60,20 @@ app.MapGet("/api/cart", (HttpContext context, ProductDbContext db,  UserManager<
         .FirstOrDefault(c => c.UserId == user.Id);
     return customer.Cart;
 }).RequireAuthorization();
+app.MapPost("/api/products", (ProductDto product, ProductDbContext db) =>
+{
+    Product newProduct = new Product();
+    newProduct.Name = product.Name;
+    newProduct.Description = product.Description;
+    Price price = new Price();
+    price.Amount = product.Price;
+    price.Moment = DateTime.Now;
+    price.Description = "Initial price";
+    newProduct.PriceHistory.Add(price);
+    db.Products.Add(newProduct);
+    db.SaveChanges();
+    return Results.Ok();
+});
 app.MapPost("/api/customer", (Customer customer, CustomerFactory factory) =>
     {
         Customer newCustomer = factory.CreateCustomer(customer.Name, customer.Email, customer.Mobile);

@@ -1,6 +1,7 @@
 import './App.css'
 import Display from "./components/Display.tsx";
 import {useProductData} from "./data/api.ts";
+import AddProductForm from "./components/AddProductForm.tsx";
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
   return (
     <>
         <Display products={data || []}/>
+        <AddProductForm />
     </>
   )
 }
