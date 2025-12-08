@@ -9,7 +9,7 @@ export interface dwnProducts {
 
 const Display : React.FC<DisplayProps> = ({products}) => {
     return (
-        <div>
+        <div className="grid auto-cols-max grid-flow-col gap-4">
             {products.length > 0 ? products.map(product =>
                 <ProductCard key={product.id} title={product.name} price={product.price} description={product.description}/>)
                 : <p>No products found</p>}

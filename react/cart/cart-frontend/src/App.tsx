@@ -9,10 +9,14 @@ function App() {
     const { data } = useProductData();
 
   return (
-    <>
-        <Display products={data || []}/>
-        <AddProductForm />
-    </>
+    <div className="grid grid-cols-5 gap-4">
+        <div>
+            <AddProductForm />
+        </div>
+        <div className="col-span-4 p-2">
+            <Display products={data || []}/>
+        </div>
+    </div>
   )
 }
 
