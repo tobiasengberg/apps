@@ -2,10 +2,7 @@ export const tableMenu = () => {
     let newElement = document.createElement("div");
     newElement.setAttribute("id", "table-menu");
     tableButtons.forEach((button) => {
-        let newButton = document.createElement("button");
-        newButton.setAttribute("id", button[0]);
-        newButton.innerText = button[1];
-        newElement.appendChild(newButton);
+        newElement.appendChild(getButton(button));
     })
     return newElement;
 }
@@ -15,8 +12,8 @@ const tableButtons = [
     [ "addColumn", "Add column" ],
     [ "addRowAbove", "Add row above" ],
     [ "addRowBelow", "Add row below" ],
-    [ "addColumnLeft", "Add column left" ],
-    [ "addColumnRight", "Add column right" ],
+    [ "addColumnLeft", "Add column left", "column-insert-left.svg" ],
+    [ "addColumnRight", "Add column right", "column-insert-right.svg" ],
     [ "removeRowAbove", "Remove row above" ],
     [ "removeRowBelow", "Remove row below" ],
     [ "removeColumnLeft", "Remove column left" ],
@@ -24,3 +21,16 @@ const tableButtons = [
     [ "mergeCells", "Merge cells" ],
     [ "unmergeCells", "Unmerge cells" ],
 ]
+
+const getButton = (button) => {
+    let newButton = document.createElement("button");
+    newButton.setAttribute("id", button[0]);
+    if(button.length > 2) {
+        let image = document.createElement("img");
+        image.setAttribute("src", `/images/${button[2]}`);
+        newButton.appendChild(image);
+    } else {
+        newButton.innerText = button[1];
+    }
+    return newButton;
+}
