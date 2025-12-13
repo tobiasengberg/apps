@@ -5,17 +5,14 @@ import {chartMenu} from "../commands/chart-commands/chart-menu.js";
 
 export const loadMenu = () => {
     let menu = document.getElementById("menu");
-    menu.innerText = "";
+    menu.replaceChildren(getMenuChoice(config.tabChoice));
+}
+
+const getMenuChoice = (choice) => {
     switch (config.tabChoice) {
-        case "table-menu":
-            menu.appendChild(tableMenu());
-            break;
-        case "format-menu":
-            menu.appendChild(formatMenu());
-            break;
-        case "chart-menu":
-            menu.appendChild(chartMenu());
-            break;
+        case "table-menu": return tableMenu();
+        case "format-menu": return formatMenu();
+        case "chart-menu": return chartMenu();
         default:
     }
 }
