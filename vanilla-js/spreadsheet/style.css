@@ -3,13 +3,20 @@
     --sheet-background-color: hsl(219, 100%, 95%);
     --sheet-color: hsl(219, 20%, 20%);
     --bars-background-color: hsl(219, 80%, 85%);
-    --menu-background-color: hsl(219, 50%, 65%);
+    --inspector-background-color: hsl(219, 100%, 96%);
+    --menu-background-color: hsl(219, 56%, 55%);
 }
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+button {
+    background-color: inherit;
+    border: none;
+    font-weight: 600;
 }
 
 body {
@@ -27,32 +34,46 @@ body {
 
 #main-menu {
     background-color: var(--menu-background-color);
-    grid-column: span 2;
+
+}
+
+#inspector {
+    grid-row: span 2;
+    background-color: var(--inspector-background-color);
+    min-height: calc(100vh - 30px);
+    position: sticky;
+    right: 0;
+    border-left: 4px solid white;
+    padding: 20px 10px;
+    z-index: 10;
+
+}
+
+#inspector-tabs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
 
 #inspector-main {
     display: flex;
     flex-direction: row;
-    margin: 10px;
     justify-content: flex-start;
-    background-color: var(--menu-background-color);
-
 }
 
 #inspector-main > div > * {
     margin: 10px;
     padding: 5px;
-    background-color: var(--sheet-background-color);
-    border: none;
-    color: var(--menu-background-color);
+    border-bottom: 2px solid var(--inspector-background-color);
+
 }
 
 #inspector-main > * {
-    padding: 10px;
+    padding: 10px 0;
+
 }
 #inspector-main > div > *:hover {
-    background-color: var(--menu-background-color);
-    color: var(--sheet-background-color);
+    border-color: white;
 }
 
 #spreadsheet {
@@ -137,4 +158,13 @@ body {
 
 .flex-row {
     flex-direction: row;
+}
+
+.menu-btn {
+    border: none;
+    background-color: inherit;
+    font-weight: 400;
+    font-size: 14px;
+    color: white;
+    padding: 5px 20px;
 }
