@@ -19,7 +19,7 @@ body {
             "wdth" 100;
 }
 
-#menu {
+#inspector {
     display: flex;
     flex-direction: row;
     margin: 10px;
@@ -28,7 +28,7 @@ body {
 
 }
 
-#menu > div > * {
+#inspector > div > * {
     margin: 10px;
     padding: 5px;
     background-color: var(--sheet-background-color);
@@ -36,24 +36,24 @@ body {
     color: var(--menu-background-color);
 }
 
-#menu > * {
+#inspector > * {
     padding: 10px;
 }
-#menu > div > *:hover {
+#inspector > div > *:hover {
     background-color: var(--menu-background-color);
     color: var(--sheet-background-color);
 }
 
-#setup {
+#spreadsheet {
     display: grid;
     margin: 10px;
 }
 
-#setup div {
+#spreadsheet div {
     border: 1px solid white;
 }
 
-#setup input {
+#spreadsheet input {
     width: 100%;
     height: 100%;
     background-color: hsl(219, 90%, 90%);;
@@ -61,7 +61,7 @@ body {
 
 }
 
-#setup input:focus {
+#spreadsheet input:focus {
     outline: none;
     font-size: var(--sheet-font-size);
 }

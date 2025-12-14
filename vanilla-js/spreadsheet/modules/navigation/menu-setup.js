@@ -4,7 +4,7 @@ import {config} from "../data/config.js";
 import {chartMenu} from "../commands/chart-commands/chart-menu.js";
 
 export const loadMenu = () => {
-    let menu = document.getElementById("menu");
+    let menu = document.getElementById("inspector");
     menu.replaceChildren(getMenuChoice(config.tabChoice));
 }
 

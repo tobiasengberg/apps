@@ -8,7 +8,7 @@ export const setupTable = () => {
 }
 
 export const setupFullArea = () => {
-    let toAdd = document.getElementById("setup");
+    let toAdd = document.getElementById("spreadsheet");
     toAdd.replaceChildren();
     let workWidth = 100 * config.dimensions.columns;
     let workHeight = 30 * config.dimensions.rows;
@@ -19,7 +19,7 @@ export const setupFullArea = () => {
 }
 
 export const setupColumnsBar = () => {
-    let targetArea = document.getElementById("setup");
+    let targetArea = document.getElementById("spreadsheet");
     let toAdd = document.createElement("div");
     toAdd.setAttribute("id", "columns-bar");
     toAdd.style.gridTemplateColumns = `repeat(${config.dimensions.columns}, 100px)`;
@@ -33,7 +33,7 @@ export const setupColumnsBar = () => {
 }
 
 export const setupRowsBar = () => {
-    let targetArea = document.getElementById("setup");
+    let targetArea = document.getElementById("spreadsheet");
     let toAdd = document.createElement("div");
     toAdd.setAttribute("id", "rows-bar");
     toAdd.style.gridTemplateRows = `repeat(${config.dimensions.rows}, 30px)`;
@@ -50,7 +50,7 @@ export const setupWorkArea = () => {
     if (document.getElementById("workArea")) {
         document.getElementById("workArea").remove();
     }
-    let targetArea = document.getElementById("setup");
+    let targetArea = document.getElementById("spreadsheet");
     let toAdd = document.createElement("div");
     toAdd.setAttribute("id", "workArea");
     toAdd.style.gridTemplateColumns = `repeat(${config.dimensions.columns}, 100px)`;

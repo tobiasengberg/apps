@@ -1,12 +1,12 @@
 import {tableCommands} from "../commands/table-commands/table-commands.js";
 import {updateSheet} from "../setup/setup.js";
-import {loadMenu} from "../setup/menu-setup.js";
+import {loadMenu} from "./menu-setup.js";
 import {config} from "../data/config.js";
 import {formatCommands} from "../commands/format-commands/format-commands.js";
 import {chartCommands} from "../commands/chart-commands/chart-commands.js";
 
 export const loadMenuEventListeners = () => {
-    document.getElementById("menu").addEventListener("click", (e) => {
+    document.getElementById("inspector").addEventListener("click", (e) => {
         if(e.target.id === config.tabChoice) return;
         switch (config.tabChoice) {
             case "table-menu":
@@ -24,7 +24,7 @@ export const loadMenuEventListeners = () => {
         // console.log(messages[canRemove.message]);
         updateSheet();
     });
-    document.getElementById("menu-tabs").addEventListener("click", (e) => {
+    document.getElementById("main-menu").addEventListener("click", (e) => {
         switch (e.target.id) {
             case "menu-tab-table":
                 config.tabChoice = "table-menu"
