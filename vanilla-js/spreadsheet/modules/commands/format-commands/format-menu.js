@@ -1,10 +1,10 @@
-import {getElement} from "../../build-utilities/elements-building.js";
+import {buildElement} from "../../build-utilities/elements-building.js";
 
 export const formatMenu = () => {
     let newElement = document.createElement("div");
     newElement.setAttribute("id", "format-menu");
     formatButtons.forEach((button) => {
-        let newButton = getElement({ type: "button", id: button[0], text: button[1]});
+        let newButton = buildElement({ type: "button", id: button[0], text: button[1]});
         newElement.appendChild(newButton);
     });
     let inputElement = document.createElement("input");
