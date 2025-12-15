@@ -5,7 +5,6 @@ import {config} from "./modules/data/config.js";
 import {mergeCells, setupTable} from "./modules/setup/table-setup.js";
 import {applyStyling} from "./modules/styling/apply-styling.js";
 import {setupContent} from "./modules/setup/content-setup.js";
-import {loadCellListeners} from "./events/eventlisteners.js";
 
 window.addEventListener("load", () => {
     reRender(0);
@@ -14,7 +13,6 @@ window.addEventListener("load", () => {
 export const reRender = (depth = 2) => {
     if(depth === 0) {
         loadEventListeners();
-        loadCellListeners();
         loadMenu();
         loadConfigData();
     }
