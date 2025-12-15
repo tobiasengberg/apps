@@ -48,7 +48,6 @@ const alterTableSize = (isRow, comparison, change) => {
             }
         })
         config.styling = {...newStyling};
-        console.log(config.styling);
     }
 }
 

@@ -22,5 +22,4 @@ const alterStyling = (kind, value) => {
             config.styling[sel] = [[kind, value]];
         }
     });
-    console.log(config.styling);
 }

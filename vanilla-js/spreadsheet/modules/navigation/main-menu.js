@@ -24,5 +24,5 @@ export const mainMenu = () => {
 }
 
 const menuOptions = [
-    "File", "View"
+    "File", "Edit", "View", "Help"
 ]

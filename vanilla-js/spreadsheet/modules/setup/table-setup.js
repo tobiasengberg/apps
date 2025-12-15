@@ -1,4 +1,5 @@
 import {config} from "../data/config.js";
+import {buildElement} from "../build-utilities/elements-building.js";
 
 export const setupTable = () => {
     setupFullArea();
@@ -20,13 +21,17 @@ export const setupFullArea = () => {
 
 export const setupColumnsBar = () => {
     let targetArea = document.getElementById("spreadsheet");
-    let toAdd = document.createElement("div");
-    toAdd.setAttribute("id", "columns-bar");
+    let toAdd = buildElement({
+        type: "div",
+        id: "columns-bar"
+    })
     toAdd.style.gridTemplateColumns = `repeat(${config.dimensions.columns}, 100px)`;
     for(let i = 0; i < config.dimensions.columns; i++) {
-        let toAddColumn = document.createElement("div");
-        toAddColumn.setAttribute("id", "column-" + ( i + 1));
-        toAddColumn.innerText = String.fromCharCode(65 + i);
+        let toAddColumn = buildElement({
+            type: "div",
+            id: "column-" + ( i + 1),
+            text: String.fromCharCode(65 + i)
+        });
         toAdd.appendChild(toAddColumn);
     }
     targetArea.appendChild(toAdd);
@@ -34,13 +39,17 @@ export const setupColumnsBar = () => {
 
 export const setupRowsBar = () => {
     let targetArea = document.getElementById("spreadsheet");
-    let toAdd = document.createElement("div");
-    toAdd.setAttribute("id", "rows-bar");
+    let toAdd = buildElement({
+        type: "div",
+        id: "rows-bar"
+    })
     toAdd.style.gridTemplateRows = `repeat(${config.dimensions.rows}, 30px)`;
     for(let i = 0; i < config.dimensions.rows; i++) {
-        let toAddRow = document.createElement("div");
-        toAddRow.setAttribute("id", "row-" + ( i + 1));
-        toAddRow.innerText = i + 1 + "";
+        let toAddRow = buildElement({
+            type: "div",
+            id: "row-" + (i + 1),
+            text: (i + 1) + ""
+        })
         toAdd.appendChild(toAddRow);
     }
     targetArea.appendChild(toAdd);
@@ -51,17 +60,21 @@ export const setupWorkArea = () => {
         document.getElementById("workArea").remove();
     }
     let targetArea = document.getElementById("spreadsheet");
-    let toAdd = document.createElement("div");
-    toAdd.setAttribute("id", "workArea");
+    let toAdd = buildElement({
+        type: "div",
+        id: "workArea"
+    })
     toAdd.style.gridTemplateColumns = `repeat(${config.dimensions.columns}, 100px)`;
     toAdd.style.width = `${100 * config.dimensions.columns}px`;
     toAdd.style.height = `${30 * config.dimensions.rows}px`;
     for(let i = 0; i < config.dimensions.rows; i++) {
 
         for(let j = 0; j < config.dimensions.columns; j++) {
-            let toAddColumn = document.createElement("div");
-            toAddColumn.setAttribute("class", "sheet-column");
-            toAddColumn.setAttribute("id", `${i + 1}-${j + 1}`);
+            let toAddColumn = buildElement({
+                type: "div",
+                id: `${i + 1}-${j + 1}`,
+                class: "sheet-column"
+            })
             toAddColumn.style.width = "100px";
             toAdd.appendChild(toAddColumn);
         }
