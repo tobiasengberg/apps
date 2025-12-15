@@ -1,137 +1,80 @@
 import {config} from "../modules/data/config.js";
-import {tableCommands} from "../modules/commands/table-commands/table-commands.js";
-import {formatCommands} from "../modules/commands/format-commands/format-commands.js";
-import {chartCommands} from "../modules/commands/chart-commands/chart-commands.js";
-import {program} from "../script.js";
+import {reRender} from "../script.js";
+import {
+    addOrRemoveSelected, addSingleSelected,
+    handleKeyDown, handleRectangleChange,
+    removePreviouslySelected, removeSelectRectangle,
+    selectAllInColumn,
+    selectAllInRow, setSelectRectangle
+} from "../modules/selecting/cells-selecting.js";
+import {getTabChoice} from "../modules/navigation/inspector.js";
+import {runCommand} from "../modules/commands/commands.js";
 
-export const loadBarsListeners = () => {
-    document.getElementById("columns-bar").addEventListener("click", (e) => {
+export const eventListeners = {}
+
+export const loadEventListeners = () => {
+
+    document.querySelector("#columns-bar").addEventListener("click", (e) => {
         let column = e.target.id.split("column-")[1];
-        config.selection.forEach((element) => {
-            document.getElementById(element).classList.remove("selected");
-        })
-        config.selection.length = 0;
-        for(let i = 0; i < config.dimensions.rows; i++) {
-            let colId = `${i + 1}-${column}`;
-            config.selection.push(colId);
-            document.getElementById(colId).classList.add("selected");
-        }
+        removePreviouslySelected();
+        removeSelectRectangle();
+        selectAllInColumn(column);
+        eventListeners.columnsBar = true;
     });
 
-    document.getElementById("rows-bar").addEventListener("click", (e) => {
+    document.querySelector("#rows-bar").addEventListener("click", (e) => {
         let row = e.target.id.split("row-")[1];
-        config.selection.forEach((element) => {
-            document.getElementById(element).classList.remove("selected");
-        })
-        config.selection.length = 0;
-        for(let i = 0; i < config.dimensions.columns; i++) {
-            let rowId = `${row}-${i + 1}`;
-            config.selection.push(rowId);
-            document.getElementById(rowId).classList.add("selected");
-        }
-    });
-}
-
-export const loadSelectingListeners = () => {
-
-    document.addEventListener("keydown", (e) => {
-        console.log(e.key);
-        if(e.key === "Escape" && config.selection.length > 0) {
-            config.selection.forEach((element) => {
-                document.getElementById(element).classList.remove("selected");
-            });
-            config.selection.length = 0;
-        }
+        removePreviouslySelected();
+        removeSelectRectangle();
+        selectAllInRow(row);
+        eventListeners.rowsBar = true;
     });
 
+    document.querySelector("#inspector-main").addEventListener("click", (e) => {
+        eventListeners.inspectorMain = true;
+        if(e.target.id === config.tabChoice) return;
+        runCommand(e.target.id);
+        reRender(1);
+    });
 
+    document.querySelector("#inspector-tabs").addEventListener("click", (e) => {
+        eventListeners.inspectorTabs = true;
+        if(e.target.id === "inspector-tabs") return;
+        config.tabChoice = getTabChoice(e.target.id);
+        reRender();
+    })
 
     document.getElementById("workArea").addEventListener("click", (e) => {
-        let selectedElement = document.getElementById(e.target.id);
+        eventListeners.columnsBar = true;
+        if(e.target.id === "workArea") return;
+        if(!eventListeners.keyDownOnSelect) {
+            eventListeners.keyDownOnSelect = true;
+            document.addEventListener("keydown", handleKeyDown);
+        }
 
-        let selectRectangle;
-        if(!selectedElement) return;
         if(e.getModifierState("Meta")){
-            if(config.selection.includes(e.target.id)) {
-                config.selection.splice(config.selection.indexOf(e.target.id), 1);
-                selectedElement.classList.remove("selected");
-                return;
+            let added = addOrRemoveSelected(e.target.id);
+            added ? setSelectRectangle(e) : removeSelectRectangle();
+            console.log(config.selection.length);
+            if(config.selection.length === 0) {
+                document.removeEventListener("keydown", handleKeyDown);
+                eventListeners.keyDownOnSelect = false;
             }
-            config.selection.push(e.target.id);
-            selectedElement.classList.add("selected");
-            if(document.getElementById("selectRectangle")) {
-                document.getElementById("selectRectangle").remove();
-            }
-        } else {
-            config.selection.forEach((element) => {
-                document.getElementById(element).classList.remove("selected");
-            });
-            config.selection.length = 0;
-            config.selection.push(e.target.id);
-            selectedElement.classList.add("selected");
-
-            if(!document.getElementById("selectRectangle")) {
-                selectRectangle = getSelectRectangle(100, 30);
-                selectRectangle.setAttribute("id", "selectRectangle");
-                document.getElementById("workArea").appendChild(selectRectangle);
-            }
-            selectRectangle = document.getElementById("selectRectangle");
-            // selectRectangle.setAttribute("width", e.target.offsetWidth + "px");
-            // selectRectangle.setAttribute("height", e.target.offsetHeight + "px");
-            selectRectangle.style.top = e.target.offsetTop + "px";
-            selectRectangle.style.left = e.target.offsetLeft + "px";
-
-            document.getElementById("selectRectangle").addEventListener("mousedown", (e) => {
-                if (e.target.id === "top-left-corner") {
-                    console.log(e);
-                    let selectRectangle = document.getElementById("selectRectangle");
-                    selectRectangle.setAttribute("width", "200px");
-                    selectRectangle.setAttribute("height", "60px");
-                    selectRectangle.style.top = e.target.offsetTop - 120 + "px";
-                    selectRectangle.style.left = e.target.offsetLeft - 300 + "px";
-                } else if (e.target.id === "bottom-right-corner") {
-                    console.log("expand right");
-                }
-            });
+        } else if (e.target.id === "selectRectangle") {
+            handleFocusEvent()
+        }
+        else {
+            removePreviouslySelected();
+            addSingleSelected(e.target.id);
+            setSelectRectangle(e);
+        }
+        if(!eventListeners.selectRectangle) {
+            eventListeners.selectRectangle = true;
+            document.getElementById("selectRectangle").addEventListener("mousedown", handleRectangleChange);
         }
     })
-};
+}
 
-export const loadMenuEventListeners = () => {
-    document.getElementById("inspector-main").addEventListener("click", (e) => {
-        if(e.target.id === config.tabChoice) return;
-        switch (config.tabChoice) {
-            case "table-menu":
-                tableCommands[e.target.id]();
-                break;
-            case "format-menu":
-                formatCommands[e.target.id]();
-                break;
-            case "chart-menu":
-                chartCommands[e.target.id]();
-                break;
-            default:
-        }
-        // let canRemove = doesRowContain();
-        // console.log(messages[canRemove.message]);
-        program();
-    });
-    document.getElementById("inspector").addEventListener("click", (e) => {
-        switch (e.target.id) {
-            case "menu-tab-table":
-                config.tabChoice = "table-menu"
-                break;
-            case "menu-tab-format":
-                config.tabChoice = "format-menu"
-                break;
-            case "menu-tab-chart":
-                config.tabChoice = "chart-menu"
-                break;
-            default:
-        }
-        program();
-    })
-};
 
 export const loadCellListeners = () => {
 
@@ -166,7 +109,7 @@ export const loadCellListeners = () => {
             } else {
                 item[0].value = e.target.value;
             }
-            program();
+            reRender(1);
         }
     }
 }
