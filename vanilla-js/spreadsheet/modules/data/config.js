@@ -16,6 +16,6 @@ export const config = {
     ],
     tabChoice: "table-menu",
     styling: {
-            "8-7": [["color", "purple"]],
+            "8-7": { color: "purple" },
         }
     }

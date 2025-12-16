@@ -38,7 +38,6 @@ export const addOrRemoveSelected = (id) =>
 
 export const addSingleSelected = (id) => {
     let selectedElement = document.getElementById(id);
-    console.log(selectedElement);
     config.selection.push(id);
     selectedElement.classList.add("selected");
 }

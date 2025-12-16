@@ -46,7 +46,6 @@ export const loadEventListeners = () => {
 
     document.getElementById("workArea").addEventListener("click", (e) => {
         eventListeners.columnsBar = true;
-        console.log(document.getElementById(e.target.id).className === "selected");
         if(e.target.id === "workArea") return;
         if(!eventListeners.keyDownOnSelect) {
             eventListeners.keyDownOnSelect = true;

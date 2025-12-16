@@ -6,8 +6,9 @@ export const applyStyling = () => {
     styledEntries.forEach((item) => {
         let target = document.getElementById(item);
         let customStyles = config.styling[item];
-        customStyles.forEach((style) => {
-            target.style[style[0]] = style[1];
+        let styleRules = Object.keys(customStyles);
+        styleRules.forEach((rule) => {
+            target.style[rule] = customStyles[rule];
         })
     })
 }

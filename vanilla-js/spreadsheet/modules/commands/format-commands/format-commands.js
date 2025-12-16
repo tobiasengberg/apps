@@ -17,9 +17,11 @@ export const formatCommands = {
 const alterStyling = (kind, value) => {
     config.selection.forEach(sel => {
         if(config.styling.hasOwnProperty(sel)) {
-            config.styling[sel].push([kind, value]);
+            config.styling[sel][kind] = value;
         } else {
-            config.styling[sel] = [[kind, value]];
+            config.styling[sel] = { [kind]: value };
         }
     });
+    console.log(config.styling);
 }
+

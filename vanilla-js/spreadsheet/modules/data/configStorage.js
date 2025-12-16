@@ -14,7 +14,7 @@ export const loadConfigData = () => {
         config.mergeData = JSON.parse(mergeDataHistory);
     }
     let stylingHistory = localStorage.getItem("styling");
-    if(stylingHistory) {
-        config.styling = JSON.parse(stylingHistory);
-    }
+    // if(stylingHistory) {
+    //     config.styling = JSON.parse(stylingHistory);
+    // }
 }

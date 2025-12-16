@@ -25,6 +25,7 @@ export const reRender = (depth = 2) => {
         mergeCells();
         applyStyling();
         setupContent();
+        config.selection.length = 0;
     }
     loadInspector();
 
