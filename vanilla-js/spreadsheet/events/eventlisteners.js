@@ -55,7 +55,6 @@ export const loadEventListeners = () => {
         if(e.getModifierState("Meta")){
             let added = addOrRemoveSelected(e.target.id);
             added ? setSelectRectangle(e) : removeSelectRectangle();
-            console.log(config.selection.length);
             if(config.selection.length === 0) {
                 document.removeEventListener("keydown", handleKeyDown);
                 eventListeners.keyDownOnSelect = false;

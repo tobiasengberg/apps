@@ -122,7 +122,6 @@ export const handleRectangleChange = (e) => {
 }
 
 export const handleKeyDown = (e) => {
-    console.log(e.key);
     if(e.key === "Escape" && config.selection.length > 0) {
         config.selection.forEach((element) => {
             document.getElementById(element).classList.remove("selected");
