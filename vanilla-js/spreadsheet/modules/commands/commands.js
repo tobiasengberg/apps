@@ -17,3 +17,18 @@ export const runCommand = (id) => {
         default:
     }
 }
+
+export const getButton = (button) => {
+    let newButton = document.createElement("button");
+
+    if(button.length > 2) {
+        let image = document.createElement("img");
+        image.setAttribute("src", `/images/${button[2]}`);
+        image.setAttribute("id", button[0]);
+        newButton.appendChild(image);
+    } else {
+        newButton.innerText = button[1];
+        newButton.setAttribute("id", button[0]);
+    }
+    return newButton;
+}

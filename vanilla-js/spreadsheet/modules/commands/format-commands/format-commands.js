@@ -2,7 +2,7 @@ import {config} from "../../data/config.js";
 
 export const formatCommands = {
     changeTextColor: () => alterStyling("color", () => "purple"),
-    changeFillColor: () => alterStyling("backgroundColor", document.getElementById("color-picker").value),
+    changeFillColor: () => alterStyling("backgroundColor", () => document.getElementById("color-picker").value),
     toggleBoldText: () => alterStyling("font-weight", () => "700"),
     increaseFontSize: () => alterStyling("font-size", (sel) => {
         let old = window.getComputedStyle(document.getElementById(sel)).getPropertyValue('font-size');

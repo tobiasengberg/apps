@@ -47,6 +47,9 @@ const alterTableSize = (isRow, comparison, change) => {
                 newStyling[item] = config.styling[item];
             }
         })
+        let oldSelection = config.selection[0].split("-");
+        config.selection[0] = `${isRow ? parseInt(oldSelection[0]) + change : oldSelection[0]}-${isRow ? oldSelection[1] : parseInt(oldSelection[1]) + change}`;
+        console.log(config.selection);
         config.styling = {...newStyling};
     }
 }
