@@ -13,8 +13,22 @@ export const mergeCells = () => {
     suppress.forEach((item) => {
         delete config.styling[item];
         let remove = config.content.filter((entry) => entry.id === item);
+        console.log(remove);
         let target = config.content.findIndex((entry) => entry.id === origin);
-        if(remove) config.content[target].value += ", " + remove[0].value;
+        console.log(target);
+        let suppressedContent = "";
+        if(remove.length > 0) suppressedContent += remove[0].value;
+        if(target === -1 && suppressedContent.length > 0) {
+            config.content.push({
+                value: suppressedContent,
+                id: origin,
+                column: parseInt(origin.split("-")[1]),
+                row: parseInt(origin.split("-")[0]),
+                style: []
+            })
+        } else if(target && suppressedContent.length > 0) {
+            config.content[target].value += suppressedContent;
+        }
     });
     config.content = config.content.filter((entry) => suppress.indexOf(entry.id) < 0);
     selection.forEach((item) => {
