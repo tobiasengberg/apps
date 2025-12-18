@@ -8,10 +8,33 @@ export const formatMenu = () => {
 
         newElement.appendChild(getButton(button));
     });
-    let inputElement = document.createElement("input");
-    inputElement.setAttribute("type", "color");
-    inputElement.setAttribute("id", "color-picker");
-    newElement.appendChild(inputElement);
+    let colorPicker = document.createElement("input");
+    colorPicker.setAttribute("type", "color");
+    colorPicker.setAttribute("id", "color-picker");
+    newElement.appendChild(colorPicker);
+    let borderStyle = buildElement({
+        type: "select",
+        id: "border-style"
+    });
+    let optionOne = buildElement({
+        type: "option",
+        value: "solid",
+        text: "Solid"
+    });
+    let optionTwo = buildElement({
+        type: "option",
+        value: "dotted",
+        text: "Dotted"
+    });
+    let optionThree = buildElement({
+        type: "option",
+        value: "dashed",
+        text: "Dashed"
+    });
+    borderStyle.appendChild(optionOne);
+    borderStyle.appendChild(optionTwo);
+    borderStyle.appendChild(optionThree);
+    newElement.appendChild(borderStyle);
     return newElement;
 }
 

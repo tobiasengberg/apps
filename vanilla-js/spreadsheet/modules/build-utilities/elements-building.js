@@ -3,5 +3,6 @@ export const buildElement = (element) => {
     if(element.id) newElement.setAttribute("id", element.id);
     if(element.class) newElement.className = element.class;
     if(element.text) newElement.innerText = element.text;
+    if(element.value) newElement.value = element.value;
     return newElement;
 }
