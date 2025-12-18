@@ -72,8 +72,6 @@ body {
 
 #inspector-main > div > * {
     margin: 10px;
-    padding: 5px;
-    border-bottom: 2px solid var(--inspector-background-color);
 
 }
 
@@ -180,4 +178,10 @@ body {
 
 svg {
     pointer-events: none;
+}
+
+#color-picker {
+    padding: 0;
+    height: 40px;
+    border: none;
 }

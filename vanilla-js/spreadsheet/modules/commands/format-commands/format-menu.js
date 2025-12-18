@@ -5,7 +5,6 @@ export const formatMenu = () => {
     let newElement = document.createElement("div");
     newElement.setAttribute("id", "format-menu");
     formatButtons.forEach((button) => {
-
         newElement.appendChild(getButton(button));
     });
     let colorPicker = document.createElement("input");
@@ -42,10 +41,10 @@ const formatButtons = [
     [ "changeTextColor", "Change text color" ],
     [ "changeFillColor", "Change fill color" ],
     ["toggleBoldText", "Bold" ],
-    ["increaseFontSize", "Increase font size" ],
-    ["decreaseFontSize", "Decrease font size" ],
-    ["addBorderAbove", "Add border above" ],
-    ["addBorderBelow", "Add border below" ],
+    ["increaseFontSize", "Increase font size", "caret-up.svg" ],
+    ["decreaseFontSize", "Decrease font size", "caret-down.svg" ],
+    ["addBorderAbove", "Add border above", "border-top.svg" ],
+    ["addBorderBelow", "Add border below", "border-bottom.svg" ],
     ["clearFormatting", "Clear formatting" ],
     ["justifyLeft", "Justify left", "justify-left.svg" ],
     ["justifyCenter", "Justify center", "justify.svg" ],
