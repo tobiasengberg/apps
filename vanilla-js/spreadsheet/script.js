@@ -5,7 +5,7 @@ import {config} from "./modules/data/config.js";
 import {mergeCells, setupTable} from "./modules/setup/table-setup.js";
 import {applyStyling} from "./modules/styling/apply-styling.js";
 import {setupContent} from "./modules/setup/content-setup.js";
-import {getLetterCombination} from "./modules/expression-parsing/references.js";
+import {getId, getLetterCombination} from "./modules/expression-parsing/references.js";
 
 window.addEventListener("load", () => {
     reRender(0);
@@ -31,8 +31,6 @@ export const reRender = (depth = 2) => {
     if(depth !== 1) {
         loadInspector();
     }
-    console.log(getLetterCombination("23-62"));
-
 }
 
 

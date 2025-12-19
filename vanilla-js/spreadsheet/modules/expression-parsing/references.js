@@ -6,3 +6,9 @@ export const getLetterCombination = (id) => {
         : `${String.fromCharCode(64 + column)}${row}`;
 }
 
+export const getId = (letterCombination) => {
+    let splitPoint = letterCombination.search(/[0-9]+/);
+    let column = 0;
+    for(let i = 0; i < splitPoint; i++) column += (letterCombination.charCodeAt(i) - 64) * Math.pow(25, splitPoint - 1 - i);
+    return `${letterCombination.substring(splitPoint)}-${column}`;
+}
