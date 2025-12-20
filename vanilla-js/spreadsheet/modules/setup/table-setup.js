@@ -66,14 +66,6 @@ export const setupWorkArea = () => {
     }
 }
 
-const doesRowContain = () => {
-    return { message: 412 };
-}
-
-const doesColumnContain = () => {
-    return { message: 411 };
-}
-
 export const mergeCells = () => {
     config.mergeData.forEach((item) => {
         let cellOrigin = document.getElementById(item.origin);
